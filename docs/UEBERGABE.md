@@ -1,6 +1,6 @@
 # Übergabe an einen neuen Chat – EduKSX-Core
 
-Stand: **14.11.2026** – Releases 0.1.0 und 0.1.1; Core 0.2 (#13–#16) als PR offen; Glossary stellt auf Core um (Glossary #335).
+Stand: **14.11.2026** – Releases 0.1.0, 0.1.1 und 0.2.0; Glossary stellt auf Core um (Glossary #335).
 [PROJEKTSTAND.md](PROJEKTSTAND.md) (aktuell), [PROJEKTSTAND-ARCHIV.md](PROJEKTSTAND-ARCHIV.md) (Verlauf). Konzept liegt im
 Repo EduKSX-Architektur (`docs/KONZEPT-CORE.md`). Bei jeder Übergabe nachführen.
 
@@ -35,7 +35,8 @@ Repo EduKSX-Architektur (`docs/KONZEPT-CORE.md`). Bei jeder Übergabe nachführe
 
 - #13 Steckbrief und /health, #14 Empfang S4 (Signer, CloudEvent, Idempotenz), #15 Historie data_changes, #16 Schemas
   aus `spec/` (Architektur v0.3.0) mit `opis/json-schema`; Konformitätstest erweitert. 105 Tests, SQLite und PostgreSQL.
-- Offen: Lizenz von `spec/` (GPL-3.0 im Architektur-Repo, Core MIT); Release 0.2.0 nach Freigabe.
+- Release 0.2.0 freigegeben und veröffentlicht (PR #18, #19); #11, #13–#16 und Meilenstein 0.2.0 geschlossen.
+- Offen: Lizenz von `spec/` (GPL-3.0 im Architektur-Repo, Core MIT).
 
 ### Sitzung 13.11.2026 (17:05–17:45) – Start
 
