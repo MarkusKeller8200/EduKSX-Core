@@ -6,6 +6,8 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ## [Unveröffentlicht]
 
+## [0.2.0] – 2026-11-14
+
 ### Neu
 
 - **Steckbrief und /health (#13):** `GET /.well-known/eduksx-module.json` aus `config/eduksx.php` (`manifest`, `version`) und `GET /health` mit den Prüfungen database, migrations, queue, storage; eigene Prüfungen über `Health::register()`; Antworten nach `spec/v1` (S5).
