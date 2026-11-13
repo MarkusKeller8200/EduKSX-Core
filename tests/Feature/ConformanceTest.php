@@ -162,4 +162,12 @@ final class ConformanceTest extends TestCase
             DataClasses::reset();
         }
     }
+
+    public function test_core_routes_are_not_part_of_module_openapi(): void
+    {
+        Route::post('api/v1/platform-events', fn () => null)->name('eduksx.events');
+        app('router')->getRoutes()->refreshNameLookups();
+
+        $this->assertOpenApiConforms(self::SPEC);
+    }
 }

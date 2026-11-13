@@ -10,6 +10,10 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 - **Lizenz der Schemas:** `resources/spec/` steht unter `GPL-3.0-or-later OR MIT` (EduKSX-Architektur `spec/LICENSE`, PR #56); damit sauber in Core (MIT) ausgeliefert.
 
+### Behoben
+
+- **Konformitätstest (#22):** Routen von Core selbst (`eduksx.*`, z. B. `POST /api/v1/platform-events`) zählen beim Abgleich mit der OpenAPI des Moduls nicht mit; sie beschreibt `spec/`.
+
 ## [0.2.0] – 2026-11-14
 
 ### Neu

@@ -136,7 +136,8 @@ trait AssertsConformance
         foreach (RouteFacade::getRoutes()->getRoutes() as $route) {
             /** @var Route $route */
             $uri = '/'.ltrim($route->uri(), '/');
-            if (preg_match('#^/api/v[0-9]+(/|$)#', $uri) !== 1) {
+            // Routen von Core selbst (eduksx.*, z. B. Empfang S4) beschreibt spec/, nicht die OpenAPI des Moduls
+            if (preg_match('#^/api/v[0-9]+(/|$)#', $uri) !== 1 || str_starts_with((string) $route->getName(), 'eduksx.')) {
                 continue;
             }
             foreach ($route->methods() as $method) {
