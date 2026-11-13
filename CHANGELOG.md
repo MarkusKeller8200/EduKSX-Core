@@ -6,6 +6,10 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ## [Unveröffentlicht]
 
+### Geändert
+
+- **Lizenz der Schemas:** `resources/spec/` steht unter `GPL-3.0-or-later OR MIT` (EduKSX-Architektur `spec/LICENSE`, PR #56); damit sauber in Core (MIT) ausgeliefert.
+
 ## [0.2.0] – 2026-11-14
 
 ### Neu

@@ -104,7 +104,7 @@
       "group": "vorlage",
       "name": "Plattform-Schemas spec/v1 (EduKSX-Architektur)",
       "use": "Unverändert ausgeliefert unter resources/spec/ (Core C11), Herkunft in resources/spec/SOURCE.json",
-      "license": "GPL-3.0-or-later",
+      "license": "GPL-3.0-or-later OR MIT",
       "url": "https://github.com/MarkusKeller8200/EduKSX-Architektur"
     }
   ]

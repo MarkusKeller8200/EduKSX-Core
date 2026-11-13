@@ -36,7 +36,7 @@ Repo EduKSX-Architektur (`docs/KONZEPT-CORE.md`). Bei jeder Übergabe nachführe
 - #13 Steckbrief und /health, #14 Empfang S4 (Signer, CloudEvent, Idempotenz), #15 Historie data_changes, #16 Schemas
   aus `spec/` (Architektur v0.3.0) mit `opis/json-schema`; Konformitätstest erweitert. 105 Tests, SQLite und PostgreSQL.
 - Release 0.2.0 freigegeben und veröffentlicht (PR #18, #19); #11, #13–#16 und Meilenstein 0.2.0 geschlossen.
-- Offen: Lizenz von `spec/` (GPL-3.0 im Architektur-Repo, Core MIT).
+- Lizenz von `spec/` geklärt: zusätzlich MIT (Architektur PR #56).
 
 ### Sitzung 13.11.2026 (17:05–17:45) – Start
 

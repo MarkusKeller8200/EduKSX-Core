@@ -20,7 +20,7 @@
 ## Offen bzw. geplant
 
 - 0.1.0, 0.1.1 und 0.2.0 veröffentlicht; Meilenstein 0.2.0 geschlossen
-- Lizenz der Schemas: Architektur-Repo ist GPL-3.0, Core MIT – `spec/` sollte (zusätzlich) unter MIT stehen (offen, Projektverantwortliche:r)
+- Lizenz der Schemas geklärt: `spec/` steht zusätzlich unter MIT (Architektur PR #56)
 - Core 0.3 (nach PoC #36): OIDC-Client und Abmelden, JWT-/Scope-Prüfung, Standardtabellen (C7); Ausnahmeregister im Konformitätstest
 
 ## Technik
