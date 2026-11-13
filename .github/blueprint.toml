@@ -215,7 +215,7 @@ regeln = ["Nichtziel: kein Dienst, keine eigene Datenbank und keine eigene Oberf
 # Meilensteine per Kommentar /milestone … auf einem Admin-Issue verwalten
 milestone_admin = true
 # Nummer des Admin-Issues – wird beim Anwenden automatisch eingetragen (0 = noch nicht angelegt)
-admin_issue = 0
+admin_issue = 1
 # Wer darf Befehle geben? Die Eigentümerin bzw. der Eigentümer (bei Organisationen: deren Owner) immer; zusätzlich
 # diese Konten, sofern Mitglied bzw. Mitwirkende:r, z. B. ["anna-muster"]
 milestone_admins = []
