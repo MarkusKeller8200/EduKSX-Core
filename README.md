@@ -2,6 +2,45 @@
 
 Gemeinsame PHP-Bibliothek eduksx/core für alle Module der EduKSX-Plattform: Bausteine für Fehler, Sicherheitskopfzeilen, Abruflimits, Datenbank-Helfer, Pagination, ETag sowie Konformitätstests nach DB- und API-Standard – für Entwickler:innen der Module.
 
+## Einsatz in einem Modul
+
+```bash
+composer require eduksx/core:^0.1
+```
+
+`.env` des Moduls – Schlüssel aus dem [Modulregister](https://github.com/MarkusKeller8200/EduKSX-Architektur/blob/main/docs/REGISTER-MODULE.md):
+
+```dotenv
+EDUKSX_MODULE=glossary
+```
+
+Fehler als `application/problem+json` in `bootstrap/app.php`:
+
+```php
+->withExceptions(fn (Exceptions $exceptions) => \EduKSX\Core\Http\Problem::register($exceptions))
+```
+
+Der Service-Provider wird automatisch geladen und setzt für alle Anfragen eine `X-Request-Id` und die
+Sicherheitskopfzeilen; das Abruflimit heisst `api` (`throttle:api`, Standard 120/Min.). Konfiguration anpassen:
+`php artisan vendor:publish --tag=eduksx-config`.
+
+| Baustein | Klasse | Regel |
+|---|---|---|
+| Fehler nach RFC 9457, modul-eigene Codes | `Http\Problem`, `Http\ProblemException` | API A6 |
+| Request-ID | `Http\Middleware\AssignRequestId` | API C7 |
+| Sicherheitskopfzeilen | `Http\Middleware\SecurityHeaders` | API C6 |
+| Abruflimit je Token bzw. Adresse | `RateLimiter` «api» | API C5 |
+| STRICT-Tabellen und CHECK-Regeln | `Database\StrictSchema` | DB A4 |
+| Optimistisches Sperren mit `lock_version` | `Eloquent\OptimisticLocking` (409 `conflict`) | DB A6, API B2 |
+
+Umfang und Plan: [KONZEPT-CORE.md](https://github.com/MarkusKeller8200/EduKSX-Architektur/blob/main/docs/KONZEPT-CORE.md)
+im Repo EduKSX-Architektur. Core setzt DB-Standard 1.2.1 und API-Standard 1.1.1 um (`composer.json` → `extra.eduksx`).
+
+## Entwicklung
+
+Voraussetzungen: PHP 8.4, Composer. `composer install`, dann `composer ci:check` (Format, Tests mit SQLite).
+Mit PostgreSQL: `DB_CONNECTION=pgsql DB_DATABASE=core_test DB_USERNAME=core DB_PASSWORD=core composer test`.
+
 ## Mitmachen
 
 Fehler, Verbesserungen und Ideen bitte über die Issue-Formulare melden. Wie Meldungen freigegeben und umgesetzt

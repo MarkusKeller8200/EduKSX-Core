@@ -1,46 +1,42 @@
 # Übergabe an einen neuen Chat – EduKSX-Core
 
-Stand: **JJJJ-MM-TT (hh:mm)** – ein Satz zum Stand (letztes Release, laufender Meilenstein, was im Beta-Test ist).
-[PROJEKTSTAND.md](PROJEKTSTAND.md) (aktuell), [PROJEKTSTAND-ARCHIV.md](PROJEKTSTAND-ARCHIV.md) (Verlauf), Konzepte in
-`docs/KONZEPT-*.md`. Bei jeder Übergabe nachführen.
+Stand: **13.11.2026 (17:45)** – noch kein Release; Meilenstein «0.1.0 – Grundbausteine» in Arbeit.
+[PROJEKTSTAND.md](PROJEKTSTAND.md) (aktuell), [PROJEKTSTAND-ARCHIV.md](PROJEKTSTAND-ARCHIV.md) (Verlauf). Konzept liegt im
+Repo EduKSX-Architektur (`docs/KONZEPT-CORE.md`). Bei jeder Übergabe nachführen.
 
-## Start nächster Chat (Übergabe JJJJ-MM-TT, hh:mm)
+## Start nächster Chat (Übergabe 13.11.2026, 17:45)
 
-**Zuerst lesen:** CLAUDE.md → AGENTS.md → dieser Abschnitt → PROJEKTSTAND.md → passende KONZEPT-*.md.
+**Zuerst lesen:** CLAUDE.md → AGENTS.md → dieser Abschnitt → PROJEKTSTAND.md → KONZEPT-CORE.md (Architektur-Repo).
 
 **Stand Code und CI**
-- `main` = `abc1234` (kurz, was der letzte Commit war). Arbeitsbaum sauber? CI auf `main` grün?
-- Letztes Release **v0.1.0** (Datum). Release in Arbeit? Nächstes nur auf ausdrückliche Freigabe.
-- Prüfen: `composer ci:check` (Anzahl Tests, Dauer); weitere Prüfungen mit Befehl.
+- PR «Grundgerüst» (Branch `grundgeruest`) mit #2–#4. Workflow `tests` ist Pflichtprüfung und Voraussetzung für Releases.
+- Prüfen: `composer ci:check` (23 Tests); PostgreSQL wie oben.
+- Repository-Einstellungen und Rulesets liessen sich aus der Cloud-Sitzung nicht setzen: lokal
+  `python3 ../my-github-blueprint/.github/blueprint/apply.py --ziel . --nur-github` ausführen.
 
 **Offene Issues und ihr Status**
 
-| Issue | Meilenstein | Status | Inhalt / Testliste |
+| Issue | Meilenstein | Status | Inhalt |
 |---|---|---|---|
-| #1 | 0.2.0 – Thema | `_3 Beta-Test` | was zu testen ist |
-| #2 | Funktionen | `_1 bereit` | **nicht umgesetzt** – erst auf Wort von Projektverantwortliche:r |
-
-Schliessen erst nach «getestet ok» bzw. abgehakter Testliste.
+| #2, #3, #4 | 0.1.0 – Grundbausteine | `_3 Beta-Test` nach Merge | Grundgerüst, HTTP-Basis, DB-Basis |
+| #5 | 0.1.0 – Grundbausteine | `_1 bereit` | Cursor-Pagination, ETag (+ CORS-Voreinstellung) |
+| #6 | 0.1.0 – Grundbausteine | `_1 bereit` | Spectral-Regelsatz, Konformitätstest |
 
 **Hinweise für die Arbeit**
-- Werkzeuge, Testdaten, Stolpersteine (z. B. Cache, Zugänge, was nur von Hand geht).
+- Nur herauslösen, was im Glossary erprobt ist (API G3); Glossary-Bezüge entfernen, Modulschlüssel aus `eduksx.module`.
+- Tests immer mit SQLite **und** PostgreSQL.
 
 **Arbeitsregeln** (siehe AGENTS.md)
-- Jedes Thema aus dem Chat → Issue mit Testliste; Status `_1 bereit` → `_2 in Arbeit` → `_3 Beta-Test`.
-- Verbesserungen aus dem Test nur als Issue anlegen; umsetzen erst nach Freigabe.
-- Releases nur nach ausdrücklicher Freigabe; `VERSION`, Tags und Releases nicht anfassen.
-- Löschen nur nach Rückfrage.
+- Jedes Thema aus dem Chat → Issue mit Testliste; Releases nur nach ausdrücklicher Freigabe; Löschen nur nach Rückfrage.
 
 ## Sitzungen
 
-Neueste oben. Je Sitzung: Datum und Zeit, Thema, umgesetzte Issues, Entscheide (mit Datum), Offenes. Ältere Sitzungen
-gelegentlich gekürzt nach `PROJEKTSTAND-ARCHIV.md` verschieben.
+### Sitzung 13.11.2026 (17:05–17:45) – Start
 
-### Sitzung JJJJ-MM-TT (hh:mm–) – Thema
-
-- …
+- Blueprint angewendet (MIT, öffentlich, eigener Workflow `tests`), Issues #2–#6 im Meilenstein 0.1.0.
+- Grundgerüst, HTTP-Basis und DB-Basis umgesetzt (aus dem Glossary übernommen), Tests SQLite/PostgreSQL grün.
 
 ## Entscheide
 
-Beschlüsse mit Datum, damit sie nicht erneut diskutiert werden («Entscheid JJJJ-MM-TT: …»). Dauerhafte Regeln
-gehören zusätzlich in AGENTS.md.
+- Entscheid 13.11.2026: Eigenes Repo, MIT, PHP 8.4 / Laravel 13 (KONZEPT-CORE C2–C4).
+- Entscheid 13.11.2026: Eigener Workflow `tests` statt «pruefungen» (PHP 8.4 und PostgreSQL nötig).

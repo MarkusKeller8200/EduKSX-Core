@@ -11,6 +11,61 @@
     "vorlage": "Vorlagen, Formatbeschreibungen und Texte"
   },
   "items": [
-    {"id": "app", "group": "app", "name": "EduKSX-Core", "use": "Dieses Projekt", "license": "MIT", "url": "https://github.com/MarkusKeller8200/EduKSX-Core"}
+    {
+      "id": "app",
+      "group": "app",
+      "name": "EduKSX-Core",
+      "use": "Dieses Projekt",
+      "license": "MIT",
+      "url": "https://github.com/MarkusKeller8200/EduKSX-Core"
+    },
+    {
+      "id": "laravel/framework",
+      "group": "laufzeit",
+      "name": "Laravel Framework",
+      "use": "Grundlage aller Bausteine (^13)",
+      "license": "MIT",
+      "url": "https://github.com/laravel/framework"
+    },
+    {
+      "id": "orchestra/testbench",
+      "group": "entwicklung",
+      "name": "Orchestra Testbench",
+      "use": "Tests des Pakets in einer Laravel-Umgebung",
+      "license": "MIT",
+      "url": "https://github.com/orchestral/testbench"
+    },
+    {
+      "id": "phpunit/phpunit",
+      "group": "entwicklung",
+      "name": "PHPUnit",
+      "use": "Tests",
+      "license": "BSD-3-Clause",
+      "url": "https://github.com/sebastianbergmann/phpunit"
+    },
+    {
+      "id": "laravel/pint",
+      "group": "entwicklung",
+      "name": "Laravel Pint",
+      "use": "Formatierung",
+      "license": "MIT",
+      "url": "https://github.com/laravel/pint"
+    },
+    {
+      "id": "shivammathur/setup-php",
+      "group": "entwicklung",
+      "name": "setup-php (GitHub Action)",
+      "use": "PHP 8.4 im Workflow tests",
+      "license": "MIT",
+      "url": "https://github.com/shivammathur/setup-php"
+    },
+    {
+      "id": "postgres",
+      "group": "entwicklung",
+      "name": "PostgreSQL (Container-Image)",
+      "use": "Tests gegen PostgreSQL im Workflow tests",
+      "license": "PostgreSQL",
+      "url": "https://www.postgresql.org"
+    }
   ]
 }
