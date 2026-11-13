@@ -65,14 +65,10 @@ trait AssertsConformance
                     $problems[] = "Tabelle «{$name}»: nicht STRICT (A4, StrictSchema::harden).";
                 }
             }
-            $indexed = array_map(
-                fn (array $index): string => implode(',', $index['columns']),
-                Schema::getIndexes($name),
-            );
+            $indexes = Schema::getIndexes($name);
             foreach (Schema::getForeignKeys($name) as $foreign) {
                 $columns = implode(',', $foreign['columns']);
-                $covered = array_filter($indexed, fn (string $cols): bool => $cols === $columns || str_starts_with($cols, $columns.','));
-                if ($covered === []) {
+                if (! $this->conformanceForeignKeyIndexed($foreign['columns'], $indexes)) {
                     $problems[] = "Tabelle «{$name}»: Fremdschlüssel ({$columns}) ohne Index (E5).";
                 }
             }
@@ -158,6 +154,29 @@ trait AssertsConformance
         $this->assertSame([], $missingInCode, "Beschriebene Operationen ohne Route (D3):\n- ".implode("\n- ", $missingInCode));
         $this->assertNotContains('', $operationIds, 'operationId fehlt (D3).');
         $this->assertSame(count($operationIds), count(array_unique($operationIds)), 'operationId nicht eindeutig (D3).');
+    }
+
+    /**
+     * Ein Fremdschlüssel gilt als indiziert, wenn ein Index mit seinen Spalten beginnt oder ein eindeutiger Index
+     * (auch der Primärschlüssel) aus seinen ersten Spalten besteht – z. B. (id, published_revision_id) über den
+     * Primärschlüssel id.
+     *
+     * @param  list<string>  $columns
+     * @param  list<array{columns: list<string>, unique: bool, primary: bool}>  $indexes
+     */
+    private function conformanceForeignKeyIndexed(array $columns, array $indexes): bool
+    {
+        foreach ($indexes as $index) {
+            $cols = $index['columns'];
+            if (array_slice($cols, 0, count($columns)) === $columns) {
+                return true;
+            }
+            if (($index['unique'] || $index['primary']) && array_slice($columns, 0, count($cols)) === $cols) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /** Pfadparameter vereinheitlichen: /terms/{term} und /terms/{term_id} gelten als gleich. */

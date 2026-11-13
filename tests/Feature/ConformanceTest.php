@@ -74,6 +74,25 @@ final class ConformanceTest extends TestCase
         $this->assertFailsWith('Fremdschlüssel (term_id) ohne Index', fn () => $this->assertDatabaseConforms());
     }
 
+    public function test_composite_foreign_key_covered_by_primary_key(): void
+    {
+        Schema::create('notes', function (Blueprint $t) {
+            $t->id();
+            $t->unsignedBigInteger('term_id');
+            $t->unique(['id', 'term_id']);
+        });
+        Schema::table('terms', fn (Blueprint $t) => $t->unique(['id', 'category_id']));
+        Schema::dropIfExists('notes');
+        Schema::create('notes', function (Blueprint $t) {
+            $t->id();
+            $t->unsignedBigInteger('category_id')->nullable();
+            $t->foreign(['id', 'category_id'])->references(['id', 'category_id'])->on('terms');
+        });
+        StrictSchema::harden('notes');
+
+        $this->assertDatabaseConforms();
+    }
+
     public function test_finds_non_strict_or_badly_named_table(): void
     {
         Schema::create('Begriffe', fn (Blueprint $t) => $t->id());
