@@ -1,0 +1,16 @@
+{
+  "format": 1,
+  "note": "Fremde Bibliotheken, Werkzeuge, Dienste und Vorlagen mit Lizenz. Wird monatlich vom Workflow «Fremdkomponenten prüfen» (.github/blueprint/third_party.py) verglichen; Änderungen kommen als Issue. Nach der Prüfung «checked» nachführen (--apply).",
+  "groups": {
+    "app": "Dieses Projekt",
+    "laufzeit": "Im Programm bzw. auf dem Server enthalten",
+    "plugin": "Von Plugins bzw. Modulen bei Bedarf installiert",
+    "entwicklung": "Bau, Tests und Entwicklung (nicht ausgeliefert)",
+    "extern": "Externe Programme (von den Nutzer:innen installiert)",
+    "dienst": "Online-Dienste",
+    "vorlage": "Vorlagen, Formatbeschreibungen und Texte"
+  },
+  "items": [
+    {"id": "app", "group": "app", "name": "EduKSX-Core", "use": "Dieses Projekt", "license": "MIT", "url": "https://github.com/MarkusKeller8200/EduKSX-Core"}
+  ]
+}

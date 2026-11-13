@@ -1,0 +1,61 @@
+name: tests
+
+# Prüfungen von eduksx/core: PHP 8.4 × SQLite und PostgreSQL (KONZEPT-CORE 4.4 im Repo EduKSX-Architektur).
+# Pflichtprüfung für Pull Requests (repository.pflicht_pruefungen) und Voraussetzung für Releases (release_nach).
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: core
+          POSTGRES_PASSWORD: core
+          POSTGRES_DB: core_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U core" --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Version und CHANGELOG prüfen
+        run: python3 .github/blueprint/release.py check
+
+      - name: Setup PHP
+        if: ${{ hashFiles('composer.json') != '' }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_sqlite, pdo_pgsql
+          tools: composer:v2
+          coverage: none
+
+      - name: Abhängigkeiten
+        if: ${{ hashFiles('composer.json') != '' }}
+        run: composer install --no-interaction --no-progress
+
+      - name: Prüfungen mit SQLite
+        if: ${{ hashFiles('composer.json') != '' }}
+        run: composer ci:check
+
+      - name: Tests mit PostgreSQL
+        if: ${{ hashFiles('composer.json') != '' }}
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: '5432'
+          DB_DATABASE: core_test
+          DB_USERNAME: core
+          DB_PASSWORD: core
+        run: composer test
