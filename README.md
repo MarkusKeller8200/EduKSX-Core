@@ -35,6 +35,28 @@ Sicherheitskopfzeilen und – solange das Modul keine eigene `config/cors.php` h
 | Cursor-Pagination (`cursor`, `limit`, `sort`) | `Http\CursorPagination::paginate()` | API A5 |
 | Objekt-ETag mit `If-Match` (428/412), Inhalts-ETag mit 304 | `Http\ETag` | API B2, B5 |
 | CORS-Voreinstellung: öffentliches Lesen ohne Cookies | `config('eduksx.cors')` | API C6 |
+| Gemeinsame OpenAPI-Schemas (`Problem`, `CursorMeta`, Parameter) | `resources/openapi/components.json` | API D3 |
+| Spectral-Regelsatz `eduksx` (vorerst Warnungen) | `resources/spectral/eduksx.yaml` | API D3 |
+| Konformitätstest für die CI des Moduls | `Testing\AssertsConformance` | DB E5, API D8 |
+
+### Konformitätstest im Modul
+
+```php
+final class ConformanceTest extends TestCase
+{
+    use RefreshDatabase, \EduKSX\Core\Testing\AssertsConformance;
+
+    public function test_database(): void { $this->assertDatabaseConforms(); }
+    public function test_api_basics(): void { $this->assertApiBasicsConform(); }
+    public function test_openapi(): void { $this->assertOpenApiConforms(base_path('openapi/glossary-v1.json')); }
+}
+```
+
+Linter in der CI des Moduls:
+
+```bash
+npx --yes @stoplight/spectral-cli@6.17.1 lint openapi/glossary-v1.json --ruleset vendor/eduksx/core/resources/spectral/eduksx.yaml
+```
 
 Umfang und Plan: [KONZEPT-CORE.md](https://github.com/MarkusKeller8200/EduKSX-Architektur/blob/main/docs/KONZEPT-CORE.md)
 im Repo EduKSX-Architektur. Core setzt DB-Standard 1.2.1 und API-Standard 1.1.1 um (`composer.json` → `extra.eduksx`).

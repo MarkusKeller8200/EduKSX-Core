@@ -9,8 +9,8 @@ Repo EduKSX-Architektur (`docs/KONZEPT-CORE.md`). Bei jeder Übergabe nachführe
 **Zuerst lesen:** CLAUDE.md → AGENTS.md → dieser Abschnitt → PROJEKTSTAND.md → KONZEPT-CORE.md (Architektur-Repo).
 
 **Stand Code und CI**
-- PR #7 (Grundgerüst, #2–#4) gemergt; Listen #5 im PR (Branch `listen`). Workflow `tests` ist Pflichtprüfung und Voraussetzung für Releases.
-- Prüfen: `composer ci:check` (34 Tests); PostgreSQL wie oben.
+- PR #7 (Grundgerüst, #2–#4) gemergt; Listen #5 gemergt (PR #8); Prüfungen #6 im PR (Branch `pruefungen-konformitaet`). Workflow `tests` ist Pflichtprüfung und Voraussetzung für Releases.
+- Prüfen: `composer ci:check` (40 Tests); PostgreSQL wie oben.
 - Repository-Einstellungen und Rulesets liessen sich aus der Cloud-Sitzung nicht setzen: lokal
   `python3 ../my-github-blueprint/.github/blueprint/apply.py --ziel . --nur-github` ausführen.
 
@@ -19,8 +19,8 @@ Repo EduKSX-Architektur (`docs/KONZEPT-CORE.md`). Bei jeder Übergabe nachführe
 | Issue | Meilenstein | Status | Inhalt |
 |---|---|---|---|
 | #2, #3, #4 | 0.1.0 – Grundbausteine | `_3 Beta-Test` | Grundgerüst, HTTP-Basis, DB-Basis (PR #7 gemergt) |
-| #5 | 0.1.0 – Grundbausteine | `_2 in Arbeit` | Cursor-Pagination, ETag, CORS-Voreinstellung (PR offen) |
-| #6 | 0.1.0 – Grundbausteine | `_1 bereit` | Spectral-Regelsatz, Konformitätstest |
+| #5 | 0.1.0 – Grundbausteine | `_3 Beta-Test` | Cursor-Pagination, ETag, CORS-Voreinstellung (PR #8 gemergt) |
+| #6 | 0.1.0 – Grundbausteine | `_2 in Arbeit` | Spectral-Regelsatz, Konformitätstest (PR offen) |
 
 **Hinweise für die Arbeit**
 - Nur herauslösen, was im Glossary erprobt ist (API G3); Glossary-Bezüge entfernen, Modulschlüssel aus `eduksx.module`.

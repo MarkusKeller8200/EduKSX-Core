@@ -66,6 +66,14 @@
       "use": "Tests gegen PostgreSQL im Workflow tests",
       "license": "PostgreSQL",
       "url": "https://www.postgresql.org"
+    },
+    {
+      "id": "@stoplight/spectral-cli",
+      "group": "entwicklung",
+      "name": "Spectral CLI",
+      "use": "Linter für OpenAPI mit dem Regelsatz eduksx (in der CI der Module und von Core)",
+      "license": "Apache-2.0",
+      "url": "https://github.com/stoplightio/spectral"
     }
   ]
 }
