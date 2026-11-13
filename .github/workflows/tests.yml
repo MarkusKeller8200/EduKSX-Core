@@ -51,7 +51,7 @@ jobs:
 
       - name: OpenAPI-Regelsatz eduksx am Beispiel prüfen
         if: ${{ hashFiles('resources/spectral/eduksx.yaml') != '' }}
-        run: npx --yes @stoplight/spectral-cli@6.17.1 lint tests/Fixtures/openapi/demo-v1.json --ruleset resources/spectral/eduksx.yaml --fail-severity=warn
+        run: npx --yes @stoplight/spectral-cli@6.17.1 lint 'tests/Fixtures/openapi/*.json' --ruleset resources/spectral/eduksx.yaml --fail-severity=warn
 
       - name: Tests mit PostgreSQL
         if: ${{ hashFiles('composer.json') != '' }}

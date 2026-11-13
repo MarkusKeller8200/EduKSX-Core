@@ -31,10 +31,10 @@ rules:
     then: { field: license, function: truthy }
 
   eduksx-path-version:
-    description: Pfade beginnen mit /api/v<Hauptversion>/ (A1 U1).
+    description: Pfade beginnen mit /api/v<Hauptversion> – «/api» darf auch am Ende der servers-URL stehen (A1 U1).
     severity: warn
     given: "$.paths"
-    then: { field: "@key", function: pattern, functionOptions: { match: "^/api/v[0-9]+/" } }
+    then: { field: "@key", function: pattern, functionOptions: { match: "^(/api)?/v[0-9]+(/|$)" } }
 
   eduksx-path-kebab-case:
     description: Pfadsegmente englisch, klein, kebab-case; Parameter in {snake_case} (A1 U2).

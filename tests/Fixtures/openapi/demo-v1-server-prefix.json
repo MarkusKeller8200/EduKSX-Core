@@ -1,0 +1,293 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Demo-API",
+    "version": "1.0.0",
+    "description": "Beispiel für den Konformitätstest von eduksx/core.",
+    "contact": {
+      "name": "EduKSX",
+      "url": "https://docs.eduksx.ch"
+    },
+    "license": {
+      "name": "MIT",
+      "identifier": "MIT"
+    },
+    "x-eduksx-module": "demo",
+    "x-eduksx-api-standard": "1.1"
+  },
+  "servers": [
+    {
+      "url": "https://demo.example/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "terms",
+      "description": "Begriffe"
+    }
+  ],
+  "paths": {
+    "/v1/terms": {
+      "get": {
+        "operationId": "listTerms",
+        "summary": "Begriffe auflisten",
+        "description": "Öffentliche Liste der Begriffe mit Cursor.",
+        "tags": [
+          "terms"
+        ],
+        "security": [],
+        "x-eduksx-ability": "public",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/cursor"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/sort"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Term"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/CursorMeta"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/CursorLinks"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/terms/{term_id}": {
+      "get": {
+        "operationId": "getTerm",
+        "summary": "Begriff lesen",
+        "description": "Ein Begriff.",
+        "tags": [
+          "terms"
+        ],
+        "security": [],
+        "x-eduksx-ability": "public",
+        "parameters": [
+          {
+            "name": "term_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Begriff",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Term"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Term": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Aula"
+          },
+          "published_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-11-13T08:00:00+01:00"
+          }
+        }
+      },
+      "Problem": {
+        "type": "object",
+        "description": "Fehler nach RFC 9457 (API-Standard A6).",
+        "required": [
+          "type",
+          "title",
+          "status",
+          "code",
+          "request_id"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://docs.eduksx.ch/problems/validation_failed"
+          },
+          "title": {
+            "type": "string",
+            "example": "Unprocessable Content"
+          },
+          "status": {
+            "type": "integer",
+            "example": 422
+          },
+          "detail": {
+            "type": "string",
+            "example": "Die Anfrage enthält ungültige Werte."
+          },
+          "code": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]+$",
+            "example": "validation_failed"
+          },
+          "instance": {
+            "type": "string",
+            "example": "/api/v1/terms"
+          },
+          "request_id": {
+            "type": "string",
+            "example": "01JCX7Q3M5V8YB2D4N6P9R1T3W"
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "example": {
+              "name": [
+                "Das Feld ist erforderlich."
+              ]
+            }
+          }
+        }
+      },
+      "CursorMeta": {
+        "type": "object",
+        "description": "Cursor-Pagination (API-Standard A5).",
+        "required": [
+          "limit",
+          "next_cursor",
+          "has_more"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "example": 50
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "eyJjIjp7fX0"
+          },
+          "has_more": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "CursorLinks": {
+        "type": "object",
+        "required": [
+          "next"
+        ],
+        "properties": {
+          "next": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri",
+            "example": "https://glossary.example/api/v1/terms?cursor=eyJjIjp7fX0"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "cursor": {
+        "name": "cursor",
+        "in": "query",
+        "description": "Undurchsichtiger Cursor aus meta.next_cursor.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "eyJjIjp7fX0"
+      },
+      "limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Einträge je Seite (Vorgabe 50, höchstens 200).",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200,
+          "default": 50
+        },
+        "example": 50
+      },
+      "sort": {
+        "name": "sort",
+        "in": "query",
+        "description": "Sortierung, Minus = absteigend.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "name,-published_at"
+      }
+    },
+    "responses": {
+      "Problem": {
+        "description": "Fehler",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
+      }
+    }
+  }
+}

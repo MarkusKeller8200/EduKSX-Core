@@ -58,6 +58,11 @@ final class ConformanceTest extends TestCase
         $this->assertOpenApiConforms(self::SPEC);
     }
 
+    public function test_paths_relative_to_server_prefix(): void
+    {
+        $this->assertOpenApiConforms(__DIR__.'/../Fixtures/openapi/demo-v1-server-prefix.json');
+    }
+
     public function test_finds_foreign_key_without_index(): void
     {
         Schema::create('notes', function (Blueprint $t) {

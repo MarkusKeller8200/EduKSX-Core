@@ -102,7 +102,7 @@ trait AssertsConformance
 
     /**
      * API-Standard D3: Modulschlüssel in info.x-eduksx-module, Version des Standards angegeben, jede Route unter
-     * /api/v<n>/ steht in der Beschreibung und umgekehrt, operationId eindeutig.
+     * /api/v<n> steht in der Beschreibung und umgekehrt (Pfade relativ zur ersten servers-URL), operationId eindeutig.
      *
      * @param  list<string>  $ignoreRoutes  z. B. ['GET /api/v1/openapi.json']
      */
@@ -116,9 +116,13 @@ trait AssertsConformance
         $this->assertSame(Module::key(), $spec['info']['x-eduksx-module'] ?? null, 'info.x-eduksx-module passt nicht zum Modulschlüssel (D3, G2).');
         $this->assertNotEmpty($spec['info']['x-eduksx-api-standard'] ?? null, 'info.x-eduksx-api-standard fehlt (D3).');
 
+        // Präfix aus der ersten servers-URL (z. B. https://glossary.eduksx.ch/api + /v1/terms)
+        $prefix = rtrim((string) parse_url((string) ($spec['servers'][0]['url'] ?? ''), PHP_URL_PATH), '/');
+
         $documented = [];
         $operationIds = [];
         foreach ((array) ($spec['paths'] ?? []) as $path => $operations) {
+            $path = $prefix.'/'.ltrim((string) $path, '/');
             foreach ((array) $operations as $method => $operation) {
                 if (! in_array($method, ['get', 'put', 'post', 'patch', 'delete'], true)) {
                     continue;
@@ -132,7 +136,7 @@ trait AssertsConformance
         foreach (RouteFacade::getRoutes()->getRoutes() as $route) {
             /** @var Route $route */
             $uri = '/'.ltrim($route->uri(), '/');
-            if (preg_match('#^/api/v[0-9]+/#', $uri) !== 1) {
+            if (preg_match('#^/api/v[0-9]+(/|$)#', $uri) !== 1) {
                 continue;
             }
             foreach ($route->methods() as $method) {
