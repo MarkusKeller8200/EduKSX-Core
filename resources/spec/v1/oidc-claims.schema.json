@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docs.eduksx.ch/spec/v1/oidc-claims.schema.json",
+  "title": "EduKSX S1 – Claims im ID-Token",
+  "description": "Claims, die EduKSX-Ident im ID-Token (und Userinfo) an Module liefert (Plattform S1). Standard-Claims nach OpenID Connect Core 1.0; eduksx_* sind Plattform-Claims. Unbekannte zusätzliche Claims sind erlaubt und werden von Modulen ignoriert.",
+  "type": "object",
+  "required": ["iss", "sub", "aud", "exp", "iat", "eduksx_orgs", "eduksx_roles"],
+  "properties": {
+    "iss": {"type": "string", "format": "uri", "pattern": "^https://", "description": "Aussteller (Ident), immer https."},
+    "sub": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "pattern": "^[^@\\s]+$",
+      "description": "Stabile, pseudonyme Kennung; nie die E-Mail-Adresse (kein @)."
+    },
+    "aud": {
+      "oneOf": [
+        {"type": "string", "minLength": 1},
+        {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1}
+      ]
+    },
+    "exp": {"type": "integer", "minimum": 0},
+    "iat": {"type": "integer", "minimum": 0},
+    "auth_time": {"type": "integer", "minimum": 0, "description": "Zeitpunkt der Anmeldung; für den frischen zweiten Faktor (API C1, höchstens 15 Minuten)."},
+    "nonce": {"type": "string"},
+    "sid": {"type": "string", "description": "Sitzungs-ID für Back-Channel-Logout."},
+    "email": {"type": "string", "format": "email"},
+    "email_verified": {"type": "boolean"},
+    "given_name": {"type": "string"},
+    "family_name": {"type": "string"},
+    "name": {"type": "string"},
+    "locale": {"type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$", "examples": ["de-CH", "fr-CH"]},
+    "acr": {"type": "string", "description": "Stärke der Anmeldung; `mfa` für einen zweiten Faktor."},
+    "amr": {"type": "array", "items": {"type": "string"}},
+    "eduksx_orgs": {
+      "type": "array",
+      "description": "Organisationen der Person mit ihrer Rolle in der Organisation.",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "role"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "format": "uuid", "description": "Plattform-ID der Organisation (DB E3)."},
+          "name": {"type": "string", "minLength": 1},
+          "role": {"enum": ["admin", "member"]}
+        }
+      }
+    },
+    "eduksx_roles": {
+      "type": "object",
+      "description": "Rollen je Modul; Schlüssel = Modulschlüssel aus dem Modulregister.",
+      "propertyNames": {"pattern": "^[a-z][a-z0-9]{1,15}$"},
+      "additionalProperties": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
+      }
+    }
+  }
+}

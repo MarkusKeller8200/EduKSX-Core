@@ -1,0 +1,14 @@
+{
+  "specversion": "1.0",
+  "id": "0193a1b2-7c4d-7e8f-9a0b-000000000103",
+  "source": "https://ident.eduksx.ch",
+  "type": "ident.role.changed",
+  "time": "2026-11-13T19:32:00Z",
+  "datacontenttype": "application/json",
+  "data": {
+    "user_id": "0193a1b2-0000-7000-8000-00000000b001",
+    "organization_id": "0193a1b2-0000-7000-8000-00000000a001",
+    "module": "glossary",
+    "roles": ["moderator"]
+  }
+}

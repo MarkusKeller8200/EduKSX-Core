@@ -6,6 +6,19 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ## [Unveröffentlicht]
 
+### Neu
+
+- **Steckbrief und /health (#13):** `GET /.well-known/eduksx-module.json` aus `config/eduksx.php` (`manifest`, `version`) und `GET /health` mit den Prüfungen database, migrations, queue, storage; eigene Prüfungen über `Health::register()`; Antworten nach `spec/v1` (S5).
+- **Empfang von S4-Ereignissen (#14):** `POST /api/v1/platform-events` mit Signaturprüfung `EduKSX-Signature` (300 s, konstante Zeit, Schlüsselwechsel), Prüfung gegen `event.schema.json`, Idempotenz über die Ereignis-ID (Tabelle `received_events`, tägliches Aufräumen) und Laravel-Events `eduksx:<art>`. `Signer` und `CloudEvent` auch für Absender (Ident); Test-Absender `SendsPlatformEvents`.
+- **Historie data_changes (#15):** `RecordsDataChanges`, `DataChanges`, `DataClasses` und `DataClass` aus dem Glossary herausgelöst; handelnde Person und Quelle durch das Modul bestimmbar; Migration zum Veröffentlichen.
+- **Plattform-Schemas (#16):** `spec/v1` aus EduKSX-Architektur v0.3.0 unverändert unter `resources/spec/` mit Herkunft und Prüfsummen; `Spec\Schemas` prüft dagegen (neue Abhängigkeit `opis/json-schema`, Apache-2.0); Werkzeug `bin/spec.php`.
+- **Konformitätstest:** `assertPlatformEndpointsConform()` (Steckbrief und /health gegen die Schemas) und `assertDataClassesComplete()` (DB B2).
+
+### Geändert
+
+- **Modulschlüssel:** höchstens 16 Zeichen (vorher 20), damit jeder gültige Schlüssel auch dem Muster in `spec/v1` entspricht.
+- **`ProblemException`** nimmt Feldfehler (`errors`) entgegen.
+
 ## [0.1.1] – 2026-11-13
 
 ### Behoben

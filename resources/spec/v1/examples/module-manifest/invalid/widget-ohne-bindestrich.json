@@ -1,0 +1,27 @@
+{
+  "module": "glossary",
+  "name": "EduKSX-Glossary",
+  "version": "1.0.0",
+  "operation_mode": "central",
+  "api_versions": [
+    "v1"
+  ],
+  "standards": {
+    "db": "1.2.1",
+    "api": "1.1.1"
+  },
+  "urls": {
+    "up": "/up",
+    "health": "/health"
+  },
+  "ui": {
+    "widgets": [
+      {
+        "id": "suche",
+        "title": "Suche",
+        "element": "suche",
+        "audience": "alle"
+      }
+    ]
+  }
+}

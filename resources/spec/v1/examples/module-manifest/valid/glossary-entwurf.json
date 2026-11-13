@@ -1,0 +1,71 @@
+{
+  "manifest_version": "1",
+  "module": "glossary",
+  "name": "EduKSX-Glossary",
+  "version": "1.0.0",
+  "operation_mode": "central",
+  "api_versions": [
+    "v1"
+  ],
+  "standards": {
+    "db": "1.2.1",
+    "api": "1.1.1"
+  },
+  "scopes_offered": [
+    "glossary:terms.read",
+    "glossary:proposals.write"
+  ],
+  "scopes_required": [],
+  "roles": [
+    "editor",
+    "moderator",
+    "admin"
+  ],
+  "events_emitted": [
+    "glossary.term.published"
+  ],
+  "events_consumed": [
+    "ident.user.deleted",
+    "ident.role.changed"
+  ],
+  "classification": "internal",
+  "urls": {
+    "up": "/up",
+    "health": "/health",
+    "metrics": "/metrics",
+    "openapi": "/api/openapi.json",
+    "docs": "/api/docs",
+    "security_contact": "https://github.com/MarkusKeller8200/EduKSX-Glossary/security"
+  },
+  "data_license": "CC-BY-4.0",
+  "ui": {
+    "elements": "/ui/v1/elements.js",
+    "widgets": [
+      {
+        "id": "term-search",
+        "title": "Begriff nachschlagen",
+        "element": "glossary-search",
+        "audience": "public"
+      },
+      {
+        "id": "my-proposals",
+        "title": "Meine Vorschläge",
+        "element": "glossary-my-proposals",
+        "audience": "user",
+        "scopes": [
+          "glossary:proposals.write"
+        ]
+      }
+    ],
+    "menu": [
+      {
+        "title": "Glossar",
+        "url": "/"
+      }
+    ],
+    "search": {
+      "url": "/api/v1/search?q={query}",
+      "audience": "public"
+    }
+  }
+}

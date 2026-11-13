@@ -2,6 +2,7 @@
 
 namespace EduKSX\Core\Tests\Feature;
 
+use EduKSX\Core\Data\DataClasses;
 use EduKSX\Core\Database\StrictSchema;
 use EduKSX\Core\Testing\AssertsConformance;
 use EduKSX\Core\Tests\TestCase;
@@ -133,5 +134,32 @@ final class ConformanceTest extends TestCase
             return;
         }
         $this->fail("Konformitätstest hätte «{$needle}» melden müssen.");
+    }
+
+    public function test_platform_endpoints_conform(): void
+    {
+        $this->assertPlatformEndpointsConform();
+    }
+
+    public function test_finds_invalid_manifest(): void
+    {
+        config(['eduksx.manifest.events_consumed' => ['user-deleted']]);
+
+        $this->assertFailsWith('module-manifest', fn () => $this->assertPlatformEndpointsConform());
+    }
+
+    public function test_data_classes_for_every_column(): void
+    {
+        DataClasses::define([
+            'categories' => ['id' => 'internal'],
+            'terms' => ['id' => 'internal', 'name' => 'public'],
+        ]);
+        try {
+            $this->assertFailsWith('terms.category_id', fn () => $this->assertDataClassesComplete());
+            DataClasses::define(['terms' => ['category_id' => 'internal']]);
+            $this->assertDataClassesComplete();
+        } finally {
+            DataClasses::reset();
+        }
     }
 }

@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docs.eduksx.ch/spec/v1/signature.schema.json",
+  "title": "EduKSX S4 – Kopfzeile EduKSX-Signature",
+  "description": "Wert der Kopfzeile `EduKSX-Signature`: `t=<Unix-Sekunden>,v1=<HMAC-SHA256 hex>`; signiert wird `<t>.<roher Body>`. Bei Schlüsselwechsel dürfen mehrere `v1=` folgen; gültig ist die Nachricht, wenn einer passt. Empfänger weisen `t` älter als 300 Sekunden ab.",
+  "type": "string",
+  "pattern": "^t=[0-9]{10,},v1=[0-9a-f]{64}(,v1=[0-9a-f]{64})*$"
+}

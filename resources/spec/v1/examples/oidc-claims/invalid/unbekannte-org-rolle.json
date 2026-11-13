@@ -1,0 +1,11 @@
+{
+  "iss": "https://ident.eduksx.ch",
+  "sub": "312845729384756203",
+  "aud": "glossary",
+  "exp": 1763063400,
+  "iat": 1763062800,
+  "eduksx_orgs": [
+    {"id": "0193a1b2-0000-7000-8000-00000000a001", "name": "Schule Beispiel", "role": "owner"}
+  ],
+  "eduksx_roles": {"Glossary": ["moderator"]}
+}

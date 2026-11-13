@@ -1,0 +1,15 @@
+{
+  "data": [
+    {
+      "id": "0193a1b2-7c4d-7e8f-9a0b-1c2d3e4f5a70",
+      "type": "update",
+      "created_at": "2026-11-13T18:00:00Z",
+      "target_version": "2.5.0",
+      "image": "ghcr.io/markuskeller8200/sek-intranet@sha256:9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+      "maintenance_window": {"starts_at": "2026-11-14T01:00:00Z", "ends_at": "2026-11-14T03:00:00Z"},
+      "signature": "eyJhbGciOiJFUzI1NiIsImtpZCI6Im9wcy0xIn0..MEUCIQDexampleSignatureOnly"
+    }
+  ],
+  "next_cursor": null,
+  "has_more": false
+}

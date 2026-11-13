@@ -1,0 +1,21 @@
+{
+  "iss": "https://ident.eduksx.ch",
+  "sub": "312845729384756201",
+  "aud": "glossary",
+  "exp": 1763063400,
+  "iat": 1763062800,
+  "auth_time": 1763062790,
+  "sid": "b6b0b7f9-daf6-4377",
+  "email": "anna.muster@schule-beispiel.example",
+  "email_verified": true,
+  "given_name": "Anna",
+  "family_name": "Muster",
+  "name": "Anna Muster",
+  "locale": "de-CH",
+  "acr": "mfa",
+  "amr": ["pwd", "otp"],
+  "eduksx_orgs": [
+    {"id": "0193a1b2-0000-7000-8000-00000000a001", "name": "Schule Beispiel", "role": "admin"}
+  ],
+  "eduksx_roles": {"glossary": ["moderator"], "intranet": ["teacher"]}
+}

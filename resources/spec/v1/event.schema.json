@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docs.eduksx.ch/spec/v1/event.schema.json",
+  "title": "EduKSX S4 – Ereignis (CloudEvents 1.0, JSON)",
+  "description": "Ereignisse von Ident an Module (Plattform S4, API B7). Hülle nach CloudEvents 1.0 im strukturierten JSON-Format. Ereignisse tragen nur IDs, keine personenbezogenen Werte; Abnehmer holen Einzelheiten mit Recht über die API. Signatur siehe signature.schema.json.",
+  "type": "object",
+  "required": ["specversion", "id", "source", "type", "time", "datacontenttype", "data"],
+  "properties": {
+    "specversion": {"const": "1.0"},
+    "id": {"type": "string", "format": "uuid", "description": "Ereignis-ID (UUID v7); Empfänger verarbeiten idempotent darüber."},
+    "source": {"type": "string", "format": "uri-reference", "minLength": 1, "examples": ["https://ident.eduksx.ch"]},
+    "type": {"type": "string", "pattern": "^[a-z][a-z0-9]{1,15}\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"},
+    "time": {"type": "string", "format": "date-time"},
+    "datacontenttype": {"const": "application/json"},
+    "subject": {"type": "string"},
+    "dataschema": {"type": "string", "format": "uri"},
+    "data": {"type": "object"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "uuid": {"type": "string", "format": "uuid"},
+    "user": {
+      "type": "object",
+      "required": ["user_id", "subject"],
+      "additionalProperties": false,
+      "properties": {
+        "user_id": {"$ref": "#/$defs/uuid", "description": "Plattform-ID der Person."},
+        "subject": {"type": "string", "pattern": "^[^@\\s]+$", "description": "`sub` aus dem ID-Token."}
+      }
+    },
+    "organization": {
+      "type": "object",
+      "required": ["organization_id"],
+      "additionalProperties": false,
+      "properties": {"organization_id": {"$ref": "#/$defs/uuid"}}
+    },
+    "membership": {
+      "type": "object",
+      "required": ["organization_id", "user_id", "role"],
+      "additionalProperties": false,
+      "properties": {
+        "organization_id": {"$ref": "#/$defs/uuid"},
+        "user_id": {"$ref": "#/$defs/uuid"},
+        "role": {"enum": ["admin", "member"]}
+      }
+    },
+    "role_change": {
+      "type": "object",
+      "required": ["user_id", "module", "roles"],
+      "additionalProperties": false,
+      "properties": {
+        "user_id": {"$ref": "#/$defs/uuid"},
+        "organization_id": {"$ref": "#/$defs/uuid"},
+        "module": {"type": "string", "pattern": "^[a-z][a-z0-9]{1,15}$"},
+        "roles": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"type": {"enum": ["ident.user.updated", "ident.user.disabled", "ident.user.deleted"]}}},
+      "then": {"properties": {"data": {"$ref": "#/$defs/user"}}}
+    },
+    {
+      "if": {"properties": {"type": {"enum": ["ident.organization.created", "ident.organization.updated", "ident.organization.deleted"]}}},
+      "then": {"properties": {"data": {"$ref": "#/$defs/organization"}}}
+    },
+    {
+      "if": {"properties": {"type": {"enum": ["ident.membership.added", "ident.membership.removed"]}}},
+      "then": {"properties": {"data": {"$ref": "#/$defs/membership"}}}
+    },
+    {
+      "if": {"properties": {"type": {"const": "ident.role.changed"}}},
+      "then": {"properties": {"data": {"$ref": "#/$defs/role_change"}}}
+    },
+    {
+      "if": {"properties": {"type": {"pattern": "^ident\\."}}},
+      "then": {
+        "properties": {
+          "type": {
+            "enum": [
+              "ident.user.updated", "ident.user.disabled", "ident.user.deleted",
+              "ident.organization.created", "ident.organization.updated", "ident.organization.deleted",
+              "ident.membership.added", "ident.membership.removed", "ident.role.changed"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

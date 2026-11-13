@@ -2,7 +2,9 @@
 
 namespace EduKSX\Core\Testing;
 
+use EduKSX\Core\Data\DataClasses;
 use EduKSX\Core\Module;
+use EduKSX\Core\Spec\Schemas;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route as RouteFacade;
@@ -20,11 +22,13 @@ use Illuminate\Support\Facades\Schema;
  *         public function test_database(): void { $this->assertDatabaseConforms(); }
  *         public function test_api_basics(): void { $this->assertApiBasicsConform(); }
  *         public function test_openapi(): void { $this->assertOpenApiConforms(base_path('openapi/glossary-v1.json')); }
+ *         public function test_platform(): void { $this->assertPlatformEndpointsConform(); }
+ *         public function test_data_classes(): void { $this->assertDataClassesComplete(); }
  *     }
  *
  * Core 0.1 prüft: Namen, STRICT (SQLite), Index auf Fremdschlüsseln; Fehlerformat, Request-ID,
- * Sicherheitskopfzeilen; Modulschlüssel und Abgleich Routen ↔ OpenAPI. Datenklassen und Zweck je Tabelle folgen mit
- * Core 0.2.
+ * Sicherheitskopfzeilen; Modulschlüssel und Abgleich Routen ↔ OpenAPI. Core 0.2: Steckbrief und /health gegen
+ * spec/v1 (S5), Datenklasse für jede Spalte (DB B2).
  */
 trait AssertsConformance
 {
@@ -183,5 +187,45 @@ trait AssertsConformance
     private function normalizeApiPath(string $path): string
     {
         return (string) preg_replace('/\{[^}]+\}/', '{}', rtrim($path, '/'));
+    }
+
+    /**
+     * Plattform S5: Steckbrief und /health antworten und entsprechen den Schemas aus spec/v1 (Core #13, #16).
+     */
+    public function assertPlatformEndpointsConform(): void
+    {
+        $manifest = $this->get('/.well-known/eduksx-module.json');
+        $manifest->assertOk();
+        $this->assertSame([], Schemas::errors('module-manifest', json_decode((string) $manifest->getContent())),
+            'Steckbrief entspricht nicht spec/v1/module-manifest.schema.json (config/eduksx.php, Abschnitt manifest).');
+        $this->assertSame(Module::key(), $manifest->json('module'));
+
+        $health = $this->get('/health');
+        $this->assertContains($health->getStatusCode(), [200, 503]);
+        $this->assertSame([], Schemas::errors('health', json_decode((string) $health->getContent())),
+            '/health entspricht nicht spec/v1/health.schema.json.');
+    }
+
+    /**
+     * DB-Standard B2: Jede Spalte jeder Tabelle des Moduls hat eine Datenklasse (DataClasses::define).
+     *
+     * @param  list<string>  $ignoreTables  weitere Tabellen ohne Prüfung (mit Eintrag im Ausnahmeregister)
+     */
+    public function assertDataClassesComplete(array $ignoreTables = []): void
+    {
+        $ignore = array_merge($this->conformanceFrameworkTables(), $ignoreTables);
+        $missing = [];
+        foreach (Schema::getTables() as $table) {
+            $name = $table['name'];
+            if (in_array($name, $ignore, true) || str_starts_with($name, 'sqlite_')) {
+                continue;
+            }
+            foreach (Schema::getColumnListing($name) as $column) {
+                if (! DataClasses::has($name, $column)) {
+                    $missing[] = "{$name}.{$column}";
+                }
+            }
+        }
+        $this->assertSame([], $missing, 'Spalten ohne Datenklasse (DataClasses::define, DB-Standard B2): '.implode(', ', $missing));
     }
 }

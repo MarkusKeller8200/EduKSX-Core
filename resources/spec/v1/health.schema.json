@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docs.eduksx.ch/spec/v1/health.schema.json",
+  "title": "EduKSX S5 – Antwort von GET /health",
+  "description": "Bereitschaft eines Moduls (Plattform S5, API D6). HTTP 200 bei `ok` oder `degraded`, 503 bei `fail`. Keine Personendaten, keine Geheimnisse, keine internen Hostnamen.",
+  "type": "object",
+  "required": ["status", "module", "version", "checks"],
+  "additionalProperties": false,
+  "properties": {
+    "status": {"$ref": "#/$defs/status"},
+    "module": {"type": "string", "pattern": "^[a-z][a-z0-9]{1,15}$"},
+    "version": {"type": "string", "minLength": 1},
+    "checked_at": {"type": "string", "format": "date-time"},
+    "checks": {
+      "type": "object",
+      "required": ["database", "migrations"],
+      "propertyNames": {"enum": ["database", "migrations", "queue", "storage", "ident", "deletion_register"]},
+      "additionalProperties": {
+        "type": "object",
+        "required": ["status"],
+        "additionalProperties": false,
+        "properties": {
+          "status": {"$ref": "#/$defs/status"},
+          "message": {"type": "string", "maxLength": 200},
+          "duration_ms": {"type": "integer", "minimum": 0}
+        }
+      }
+    }
+  },
+  "$defs": {"status": {"enum": ["ok", "degraded", "fail"]}}
+}
