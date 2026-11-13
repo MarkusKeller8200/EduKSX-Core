@@ -1,0 +1,81 @@
+# Spectral-Regelsatz «eduksx» – prüft OpenAPI-Beschreibungen nach dem API-Standard der EduKSX-Plattform (D3).
+# Aufruf im Modul: npx @stoplight/spectral-cli lint openapi/<modul>-v1.json --ruleset vendor/eduksx/core/resources/spectral/eduksx.yaml
+# Stufe: zuerst Warnungen (Core 0.1); ab dem folgenden Release Fehler (API-Standard D3).
+extends: [["spectral:oas", "recommended"]]
+formats: ["oas3"]
+rules:
+  eduksx-openapi-3-1:
+    description: OpenAPI 3.1 verwenden (D3).
+    severity: warn
+    given: "$"
+    then: { field: openapi, function: pattern, functionOptions: { match: "^3\\.1\\." } }
+
+  eduksx-info-module:
+    description: info.x-eduksx-module nennt den Modulschlüssel aus dem Register (D3, G2).
+    severity: warn
+    given: "$.info"
+    then:
+      - { field: x-eduksx-module, function: truthy }
+      - { field: x-eduksx-module, function: pattern, functionOptions: { match: "^[a-z]{2,20}$" } }
+
+  eduksx-info-api-standard:
+    description: info.x-eduksx-api-standard nennt die Version des API-Standards (D3, D8).
+    severity: warn
+    given: "$.info"
+    then: { field: x-eduksx-api-standard, function: truthy }
+
+  eduksx-info-license:
+    description: Lizenz in info.license (D3).
+    severity: warn
+    given: "$.info"
+    then: { field: license, function: truthy }
+
+  eduksx-path-version:
+    description: Pfade beginnen mit /api/v<Hauptversion>/ (A1 U1).
+    severity: warn
+    given: "$.paths"
+    then: { field: "@key", function: pattern, functionOptions: { match: "^/api/v[0-9]+/" } }
+
+  eduksx-path-kebab-case:
+    description: Pfadsegmente englisch, klein, kebab-case; Parameter in {snake_case} (A1 U2).
+    severity: warn
+    given: "$.paths"
+    then: { field: "@key", function: pattern, functionOptions: { match: "^(/([a-z0-9]+(-[a-z0-9]+)*|\\{[a-z][a-z0-9_]*\\}))+$" } }
+
+  eduksx-operation-id-camel-case:
+    description: operationId englisch in camelCase, Verb + Objekt (D3).
+    severity: warn
+    given: "$.paths[*][get,put,post,patch,delete]"
+    then:
+      - { field: operationId, function: truthy }
+      - { field: operationId, function: pattern, functionOptions: { match: "^[a-z]+[A-Z][A-Za-z0-9]*$" } }
+
+  eduksx-operation-security:
+    description: Jede Operation nennt security (leer = öffentlich, bewusst) (D3, C1).
+    severity: warn
+    given: "$.paths[*][get,put,post,patch,delete]"
+    then: { field: security, function: defined }
+
+  eduksx-operation-ability:
+    description: Jede Operation nennt x-eduksx-ability (Recht bzw. Scope, D3, C2).
+    severity: warn
+    given: "$.paths[*][get,put,post,patch,delete]"
+    then: { field: x-eduksx-ability, function: truthy }
+
+  eduksx-parameter-example:
+    description: Jeder Parameter hat ein example (D3).
+    severity: warn
+    given: "$..parameters[*]"
+    then: { field: example, function: defined }
+
+  eduksx-property-snake-case:
+    description: Feldnamen englisch in snake_case (A2).
+    severity: warn
+    given: "$..properties"
+    then: { field: "@key", function: pattern, functionOptions: { match: "^[a-z][a-z0-9]*(_[a-z0-9]+)*$" } }
+
+  eduksx-error-problem-json:
+    description: Fehlerantworten (4xx/5xx) als application/problem+json (A6).
+    severity: warn
+    given: "$.paths[*][*].responses[?(@property >= '400')]"
+    then: { field: "content.application/problem+json", function: defined }
