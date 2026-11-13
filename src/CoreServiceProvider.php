@@ -6,6 +6,7 @@ use EduKSX\Core\Http\Middleware\AssignRequestId;
 use EduKSX\Core\Http\Middleware\SecurityHeaders;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
@@ -22,9 +23,24 @@ final class CoreServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/eduksx.php', 'eduksx');
     }
 
+    /**
+     * CORS-Voreinstellung (API-Standard C6), solange das Modul die offene Laravel-Vorgabe (alle Methoden) nicht
+     * durch eine eigene config/cors.php ersetzt hat.
+     */
+    private function applyCorsDefaults(): void
+    {
+        $framework = dirname((string) (new \ReflectionClass(Application::class))->getFileName(), 4).'/config/cors.php';
+        $laravelDefault = is_file($framework) ? require $framework : null;
+        if ($laravelDefault === null || config('cors') === $laravelDefault) {
+            config(['cors' => config('eduksx.cors')]);
+        }
+    }
+
     public function boot(): void
     {
         $this->publishes([__DIR__.'/../config/eduksx.php' => config_path('eduksx.php')], 'eduksx-config');
+
+        $this->applyCorsDefaults();
 
         $module = config('eduksx.module');
         if (is_string($module) && $module !== '') {

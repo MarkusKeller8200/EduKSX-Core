@@ -21,7 +21,7 @@ Fehler als `application/problem+json` in `bootstrap/app.php`:
 ```
 
 Der Service-Provider wird automatisch geladen und setzt für alle Anfragen eine `X-Request-Id` und die
-Sicherheitskopfzeilen; das Abruflimit heisst `api` (`throttle:api`, Standard 120/Min.). Konfiguration anpassen:
+Sicherheitskopfzeilen und – solange das Modul keine eigene `config/cors.php` hat – die CORS-Voreinstellung; das Abruflimit heisst `api` (`throttle:api`, Standard 120/Min.). Konfiguration anpassen:
 `php artisan vendor:publish --tag=eduksx-config`.
 
 | Baustein | Klasse | Regel |
@@ -32,6 +32,9 @@ Sicherheitskopfzeilen; das Abruflimit heisst `api` (`throttle:api`, Standard 120
 | Abruflimit je Token bzw. Adresse | `RateLimiter` «api» | API C5 |
 | STRICT-Tabellen und CHECK-Regeln | `Database\StrictSchema` | DB A4 |
 | Optimistisches Sperren mit `lock_version` | `Eloquent\OptimisticLocking` (409 `conflict`) | DB A6, API B2 |
+| Cursor-Pagination (`cursor`, `limit`, `sort`) | `Http\CursorPagination::paginate()` | API A5 |
+| Objekt-ETag mit `If-Match` (428/412), Inhalts-ETag mit 304 | `Http\ETag` | API B2, B5 |
+| CORS-Voreinstellung: öffentliches Lesen ohne Cookies | `config('eduksx.cors')` | API C6 |
 
 Umfang und Plan: [KONZEPT-CORE.md](https://github.com/MarkusKeller8200/EduKSX-Architektur/blob/main/docs/KONZEPT-CORE.md)
 im Repo EduKSX-Architektur. Core setzt DB-Standard 1.2.1 und API-Standard 1.1.1 um (`composer.json` → `extra.eduksx`).

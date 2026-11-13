@@ -68,7 +68,7 @@ final class Problem
         if ($e instanceof ProblemException) {
             $status = $e->status;
             $code = $e->problemCode;
-            $moduleCode = true;
+            $moduleCode = ! $e->common;
             $detail = $e->getMessage() !== '' ? $e->getMessage() : null;
             $headers = $e->headers;
         } elseif ($e instanceof StaleModel) {
