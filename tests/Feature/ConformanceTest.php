@@ -58,6 +58,11 @@ final class ConformanceTest extends TestCase
         $this->assertOpenApiConforms(self::SPEC);
     }
 
+    public function test_paths_relative_to_server_prefix(): void
+    {
+        $this->assertOpenApiConforms(__DIR__.'/../Fixtures/openapi/demo-v1-server-prefix.json');
+    }
+
     public function test_finds_foreign_key_without_index(): void
     {
         Schema::create('notes', function (Blueprint $t) {
@@ -67,6 +72,25 @@ final class ConformanceTest extends TestCase
         StrictSchema::harden('notes');
 
         $this->assertFailsWith('Fremdschlüssel (term_id) ohne Index', fn () => $this->assertDatabaseConforms());
+    }
+
+    public function test_composite_foreign_key_covered_by_primary_key(): void
+    {
+        Schema::create('notes', function (Blueprint $t) {
+            $t->id();
+            $t->unsignedBigInteger('term_id');
+            $t->unique(['id', 'term_id']);
+        });
+        Schema::table('terms', fn (Blueprint $t) => $t->unique(['id', 'category_id']));
+        Schema::dropIfExists('notes');
+        Schema::create('notes', function (Blueprint $t) {
+            $t->id();
+            $t->unsignedBigInteger('category_id')->nullable();
+            $t->foreign(['id', 'category_id'])->references(['id', 'category_id'])->on('terms');
+        });
+        StrictSchema::harden('notes');
+
+        $this->assertDatabaseConforms();
     }
 
     public function test_finds_non_strict_or_badly_named_table(): void

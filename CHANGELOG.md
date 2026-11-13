@@ -6,6 +6,11 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ## [Unveröffentlicht]
 
+### Behoben
+
+- **OpenAPI mit servers-Präfix (#11):** Spectral-Regel und Konformitätstest werten Pfade relativ zur ersten `servers`-URL (z. B. `…/api` + `/v1/terms`).
+- **Fremdschlüssel über eindeutigen Index (#11):** Der Konformitätstest erkennt Fremdschlüssel als indiziert, wenn ein eindeutiger Index (auch der Primärschlüssel) ihre ersten Spalten abdeckt.
+
 ## [0.1.0] – 2026-11-13
 
 ### Neu
