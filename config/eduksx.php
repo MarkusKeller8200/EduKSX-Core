@@ -31,4 +31,20 @@ return [
         'frame_src' => ["'self'"],
         'hsts' => 'max-age=31536000; includeSubDomains',
     ],
+
+    /*
+    | CORS-Voreinstellung (API-Standard C6), gilt, solange das Modul keine eigene config/cors.php hat:
+    | öffentliche GET-Endpunkte für alle Herkünfte, ohne Cookies. Schreibende Endpunkte: eigene config/cors.php mit
+    | einer Liste von Herkünften je Instanz, nie «*» mit Anmeldedaten.
+    */
+    'cors' => [
+        'paths' => ['api/*'],
+        'allowed_methods' => ['GET', 'HEAD', 'OPTIONS'],
+        'allowed_origins' => ['*'],
+        'allowed_origins_patterns' => [],
+        'allowed_headers' => ['Accept', 'Accept-Language', 'Authorization', 'Content-Type', 'If-None-Match', 'X-Request-Id'],
+        'exposed_headers' => ['ETag', 'EduKSX-Release', 'Retry-After', 'X-Request-Id'],
+        'max_age' => 86400,
+        'supports_credentials' => false,
+    ],
 ];
