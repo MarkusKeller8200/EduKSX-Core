@@ -6,6 +6,8 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ## [Unveröffentlicht]
 
+## [0.1.1] – 2026-11-13
+
 ### Behoben
 
 - **OpenAPI mit servers-Präfix (#11):** Spectral-Regel und Konformitätstest werten Pfade relativ zur ersten `servers`-URL (z. B. `…/api` + `/v1/terms`).

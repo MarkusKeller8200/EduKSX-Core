@@ -1,6 +1,6 @@
 # Übergabe an einen neuen Chat – EduKSX-Core
 
-Stand: **13.11.2026 (17:45)** – noch kein Release; Meilenstein «0.1.0 – Grundbausteine» in Arbeit.
+Stand: **13.11.2026 (21:25)** – Releases 0.1.0 und 0.1.1; Glossary stellt auf Core um (Glossary #335).
 [PROJEKTSTAND.md](PROJEKTSTAND.md) (aktuell), [PROJEKTSTAND-ARCHIV.md](PROJEKTSTAND-ARCHIV.md) (Verlauf). Konzept liegt im
 Repo EduKSX-Architektur (`docs/KONZEPT-CORE.md`). Bei jeder Übergabe nachführen.
 

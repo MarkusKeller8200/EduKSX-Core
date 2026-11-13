@@ -1,6 +1,7 @@
 # EduKSX-Core – Projektstand
 
-> Stand 13.11.2026 (20:20): Alle Bausteine von 0.1.0 gemergt (#2–#6 im Beta-Test); Release-PR 0.1.0 bereit.
+> Stand 13.11.2026 (21:25): Release 0.1.0 und 0.1.1 (servers-Präfix, Fremdschlüssel über eindeutigen Index, #11).
+> Glossary stellt um (Glossary #334/#335). Als Nächstes Core 0.2 mit Ident.
 > Als Nächstes Release 0.1.0 nach Freigabe, dann Umstellung des Glossary (Glossary #193).
 
 ## Umgesetzt
@@ -15,7 +16,7 @@
 
 ## Offen bzw. geplant
 
-- Meilenstein «0.1.0 – Grundbausteine»: #2–#6 im Beta-Test; Release-PR 0.1.0 wartet auf abgehakte Testlisten und Freigabe
+- 0.1.0 released (#2–#6 geschlossen); 0.1.1 mit #11 (`_3 Beta-Test`)
 - Core 0.2 (mit Ident): OIDC/Token-Prüfung, Standardtabellen, Historie mit Datenklassen; Ausnahmeregister im Konformitätstest
 
 ## Technik
