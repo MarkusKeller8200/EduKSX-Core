@@ -1,0 +1,13 @@
+{
+  "status": "ok",
+  "module": "glossary",
+  "version": "1.0.0",
+  "checked_at": "2026-11-13T19:30:00Z",
+  "checks": {
+    "database": {"status": "ok", "duration_ms": 3},
+    "migrations": {"status": "ok"},
+    "queue": {"status": "ok"},
+    "storage": {"status": "ok"},
+    "ident": {"status": "degraded", "message": "Antwortzeit über 2 s"}
+  }
+}

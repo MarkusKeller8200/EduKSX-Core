@@ -1,0 +1,9 @@
+{
+  "module": "sek-intranet",
+  "name": "Intranet",
+  "version": "2.4.1",
+  "operation_mode": "isolated",
+  "api_versions": ["v1"],
+  "standards": {"db": "1.2", "api": "1.1"},
+  "urls": {"up": "/up", "health": "/health"}
+}

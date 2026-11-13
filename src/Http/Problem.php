@@ -71,6 +71,7 @@ final class Problem
             $moduleCode = ! $e->common;
             $detail = $e->getMessage() !== '' ? $e->getMessage() : null;
             $headers = $e->headers;
+            $errors = $e->errors !== [] ? $e->errors : null;
         } elseif ($e instanceof StaleModel) {
             $status = 409;
             $detail = $e->getMessage();

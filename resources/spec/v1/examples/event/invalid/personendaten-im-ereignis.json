@@ -1,0 +1,13 @@
+{
+  "specversion": "1.0",
+  "id": "0193a1b2-7c4d-7e8f-9a0b-000000000201",
+  "source": "https://ident.eduksx.ch",
+  "type": "ident.user.updated",
+  "time": "2026-11-13T19:30:00Z",
+  "datacontenttype": "application/json",
+  "data": {
+    "user_id": "0193a1b2-0000-7000-8000-00000000b001",
+    "subject": "312845729384756201",
+    "email": "anna.muster@schule-beispiel.example"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "iss": "https://ident.eduksx.ch",
+  "sub": "312845729384756202",
+  "aud": ["glossary"],
+  "exp": 1763063400,
+  "iat": 1763062800,
+  "eduksx_orgs": [],
+  "eduksx_roles": {}
+}

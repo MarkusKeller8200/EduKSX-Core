@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docs.eduksx.ch/spec/v1/module-manifest.schema.json",
+  "title": "EduKSX S5 – Modul-Steckbrief",
+  "description": "Inhalt von `GET /.well-known/eduksx-module.json` (Plattform S5, API D6). Öffentlich lesbar, ohne Personendaten und ohne Geheimnisse.",
+  "type": "object",
+  "required": [
+    "module",
+    "name",
+    "version",
+    "operation_mode",
+    "api_versions",
+    "standards",
+    "urls"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "manifest_version": {
+      "const": "1",
+      "description": "Version dieses Schemas."
+    },
+    "module": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]{1,15}$",
+      "description": "Modulschlüssel aus dem Modulregister."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Anzeigename (Marketingname, frei)."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$",
+      "description": "Version des Moduls nach SemVer."
+    },
+    "operation_mode": {
+      "enum": [
+        "central",
+        "isolated",
+        "internal"
+      ],
+      "description": "Betriebsart: zentral, isolierte Instanz je Kunde oder intern (Plattform 4.2)."
+    },
+    "api_versions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^v[1-9][0-9]*$"
+      }
+    },
+    "standards": {
+      "type": "object",
+      "required": [
+        "db",
+        "api"
+      ],
+      "additionalProperties": false,
+      "description": "Versionen von DB- und API-Standard, nach denen das Modul arbeitet (DB E5, API D3).",
+      "properties": {
+        "db": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+        },
+        "api": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+        },
+        "core": {
+          "type": "string",
+          "description": "Version von eduksx/core, falls eingebunden."
+        }
+      }
+    },
+    "scopes_offered": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "Scopes, die das Modul für seine API vergibt (API C2).",
+      "items": {
+        "$ref": "#/$defs/scope"
+      }
+    },
+    "scopes_required": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "Scopes anderer Module, die dieses Modul braucht (Plattform S2).",
+      "items": {
+        "$ref": "#/$defs/scope"
+      }
+    },
+    "roles": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "Rollen, die Ident für dieses Modul vergeben kann (Claim eduksx_roles).",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*$"
+      }
+    },
+    "events_emitted": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9]{1,15}\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+      }
+    },
+    "events_consumed": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9]{1,15}\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+      }
+    },
+    "classification": {
+      "enum": [
+        "public",
+        "internal",
+        "confidential",
+        "highly_sensitive"
+      ],
+      "description": "Höchste Datenklasse des Moduls (Plattform §6)."
+    },
+    "urls": {
+      "type": "object",
+      "required": [
+        "up",
+        "health"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "up": {
+          "$ref": "#/$defs/url"
+        },
+        "health": {
+          "$ref": "#/$defs/url"
+        },
+        "metrics": {
+          "$ref": "#/$defs/url"
+        },
+        "openapi": {
+          "$ref": "#/$defs/url"
+        },
+        "docs": {
+          "$ref": "#/$defs/url"
+        },
+        "security_contact": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "data_license": {
+      "type": "string",
+      "description": "SPDX-Kennung bzw. Lizenz öffentlicher Daten, z. B. CC-BY-4.0."
+    },
+    "ui": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Plugin-Beschreibung für Gastgeber wie Intranet und Portal (KONZEPT-PLUGINS.md, P3).",
+      "properties": {
+        "elements": {
+          "$ref": "#/$defs/url",
+          "description": "Skript mit den Web-Komponenten, Pfad mit Hauptversion (/ui/v1/)."
+        },
+        "widgets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "element",
+              "audience"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "element": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9]{1,15}-[a-z0-9-]+$",
+                "description": "Name der Web-Komponente, beginnt mit dem Modulschlüssel."
+              },
+              "audience": {
+                "$ref": "#/$defs/audience"
+              },
+              "scopes": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/scope"
+                }
+              }
+            }
+          }
+        },
+        "menu": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "title",
+              "url"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "url": {
+                "$ref": "#/$defs/url"
+              }
+            }
+          }
+        },
+        "search": {
+          "type": "object",
+          "required": [
+            "url",
+            "audience"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "url": {
+              "type": "string",
+              "pattern": "\\{query\\}"
+            },
+            "audience": {
+              "$ref": "#/$defs/audience"
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "scope": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]{1,15}:[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri-reference",
+      "minLength": 1
+    },
+    "audience": {
+      "enum": [
+        "public",
+        "user"
+      ]
+    }
+  }
+}

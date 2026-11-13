@@ -1,0 +1,11 @@
+{
+  "module": "intranet",
+  "name": "Intranet",
+  "version": "2.4.1",
+  "operation_mode": "isolated",
+  "api_versions": ["v1"],
+  "standards": {"db": "1.2", "api": "1.1", "core": "0.1.0"},
+  "scopes_required": ["glossary:terms.read"],
+  "classification": "confidential",
+  "urls": {"up": "/up", "health": "/health"}
+}

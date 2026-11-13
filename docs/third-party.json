@@ -28,6 +28,30 @@
       "url": "https://github.com/laravel/framework"
     },
     {
+      "id": "opis/json-schema",
+      "group": "laufzeit",
+      "name": "Opis JSON Schema",
+      "use": "Prüfung gegen die Plattform-Schemas aus spec/ (JSON Schema 2020-12): Steckbrief, Ereignisse, Claims (#16)",
+      "license": "Apache-2.0",
+      "url": "https://github.com/opis/json-schema"
+    },
+    {
+      "id": "opis/string",
+      "group": "laufzeit",
+      "name": "Opis String",
+      "use": "Abhängigkeit von opis/json-schema",
+      "license": "Apache-2.0",
+      "url": "https://github.com/opis/string"
+    },
+    {
+      "id": "opis/uri",
+      "group": "laufzeit",
+      "name": "Opis URI",
+      "use": "Abhängigkeit von opis/json-schema",
+      "license": "Apache-2.0",
+      "url": "https://github.com/opis/uri"
+    },
+    {
       "id": "orchestra/testbench",
       "group": "entwicklung",
       "name": "Orchestra Testbench",
@@ -74,6 +98,14 @@
       "use": "Linter für OpenAPI mit dem Regelsatz eduksx (in der CI der Module und von Core)",
       "license": "Apache-2.0",
       "url": "https://github.com/stoplightio/spectral"
+    },
+    {
+      "id": "eduksx-architektur-spec",
+      "group": "vorlage",
+      "name": "Plattform-Schemas spec/v1 (EduKSX-Architektur)",
+      "use": "Unverändert ausgeliefert unter resources/spec/ (Core C11), Herkunft in resources/spec/SOURCE.json",
+      "license": "GPL-3.0-or-later",
+      "url": "https://github.com/MarkusKeller8200/EduKSX-Architektur"
     }
   ]
 }

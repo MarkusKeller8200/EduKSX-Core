@@ -1,12 +1,17 @@
 {
     "name": "eduksx/core",
-    "description": "Gemeinsame Bausteine der EduKSX-Plattform für Laravel-Module (Fehler, Sicherheit, Datenbank, Listen, Prüfungen).",
+    "description": "Gemeinsame Bausteine der EduKSX-Plattform für Laravel-Module (Fehler, Sicherheit, Datenbank, Listen, Prüfungen, Steckbrief, Ereignisse, Historie).",
     "type": "library",
     "license": "MIT",
-    "authors": [{ "name": "Markus Keller" }],
+    "authors": [
+        {
+            "name": "Markus Keller"
+        }
+    ],
     "require": {
         "php": "^8.4",
-        "laravel/framework": "^13.0"
+        "laravel/framework": "^13.0",
+        "opis/json-schema": "^2.6"
     },
     "require-dev": {
         "orchestra/testbench": "^11.0",
@@ -14,18 +19,27 @@
         "laravel/pint": "^1.20"
     },
     "autoload": {
-        "psr-4": { "EduKSX\\Core\\": "src/" }
+        "psr-4": {
+            "EduKSX\\Core\\": "src/"
+        }
     },
     "autoload-dev": {
-        "psr-4": { "EduKSX\\Core\\Tests\\": "tests/" }
+        "psr-4": {
+            "EduKSX\\Core\\Tests\\": "tests/"
+        }
     },
     "extra": {
         "laravel": {
-            "providers": ["EduKSX\\Core\\CoreServiceProvider"]
+            "providers": [
+                "EduKSX\\Core\\CoreServiceProvider"
+            ]
         },
         "eduksx": {
             "module": "core",
-            "standards": { "db": "1.2.1", "api": "1.1.1" }
+            "standards": {
+                "db": "1.2.1",
+                "api": "1.1.1"
+            }
         }
     },
     "scripts": {
@@ -33,9 +47,11 @@
         "lint": "@php vendor/bin/pint --test",
         "ci:check": [
             "python3 .github/blueprint/release.py check",
+            "@spec:check",
             "@lint",
             "@test"
-        ]
+        ],
+        "spec:check": "@php bin/spec.php check"
     },
     "config": {
         "sort-packages": true

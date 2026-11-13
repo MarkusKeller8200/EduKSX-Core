@@ -1,0 +1,11 @@
+{
+  "module": "glossary",
+  "name": "EduKSX-Glossary",
+  "version": "1.0",
+  "operation_mode": "zentral",
+  "api_versions": ["v1"],
+  "standards": {"db": "1.2.1", "api": "1.1.1"},
+  "scopes_offered": ["read"],
+  "urls": {"up": "/up", "health": "/health"},
+  "client_secret": "nicht-hierher"
+}
