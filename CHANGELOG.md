@@ -6,6 +6,8 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ## [Unveröffentlicht]
 
+## [0.1.0] – 2026-11-13
+
 ### Neu
 
 - **Grundgerüst (#2):** Paket `eduksx/core` (MIT, PHP 8.4, Laravel 13), Service-Provider, Konfiguration `eduksx`, Modulschlüssel mit Prüfung, Tests mit SQLite und PostgreSQL.
