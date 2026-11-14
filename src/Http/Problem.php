@@ -98,6 +98,21 @@ final class Problem
     }
 
     /**
+     * Titel in der Sprache der Anfrage (A6): Übersetzung `eduksx::problems.<code>` – Module ergänzen eigene Codes in
+     * lang/vendor/eduksx/<sprache>/problems.php –, sonst der englische HTTP-Text.
+     */
+    public static function title(string $code, int $status): string
+    {
+        $key = 'eduksx::problems.'.$code;
+        $title = __($key);
+        if (! is_string($title) || $title === $key) {
+            $title = __($key, [], 'en');
+        }
+
+        return is_string($title) && $title !== $key ? $title : (Response::$statusTexts[$status] ?? 'Error');
+    }
+
+    /**
      * @param  array<string, list<string>>|null  $errors
      * @param  array<string, string>  $headers
      */
@@ -116,7 +131,7 @@ final class Problem
 
         $body = array_filter([
             'type' => $type,
-            'title' => Response::$statusTexts[$status] ?? 'Error',
+            'title' => self::title($code, $status),
             'status' => $status,
             'detail' => $detail,
             'code' => $code,

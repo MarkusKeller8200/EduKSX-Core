@@ -12,6 +12,7 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ### Behoben
 
+- **Fehlertitel übersetzt (#24):** `title` in `problem+json` kommt in der Sprache der Anfrage (de, fr, it, en; Rückfall Englisch), `code` bleibt englisch (API A6). Module ergänzen eigene Codes unter `lang/vendor/eduksx/<sprache>/problems.php`.
 - **Konformitätstest (#22):** Routen von Core selbst (`eduksx.*`, z. B. `POST /api/v1/platform-events`) zählen beim Abgleich mit der OpenAPI des Moduls nicht mit; sie beschreibt `spec/`.
 
 ## [0.2.0] – 2026-11-14

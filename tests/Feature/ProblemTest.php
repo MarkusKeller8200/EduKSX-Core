@@ -98,4 +98,32 @@ final class ProblemTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         new ProblemException(400, 'Ungültig-Code');
     }
+
+    public function test_title_in_request_language_code_stays_english(): void
+    {
+        app()->setLocale('de');
+        $this->getJson('/api/v1/unbekannt')->assertStatus(404)
+            ->assertJsonPath('title', 'Nicht gefunden.')->assertJsonPath('code', 'not_found');
+
+        app()->setLocale('fr');
+        $this->getJson('/api/v1/limited')->assertJsonPath('title', 'Trop de requêtes.');
+
+        app()->setLocale('rm');   // keine Übersetzung: Englisch
+        $this->getJson('/api/v1/unbekannt')->assertJsonPath('title', 'Not found.');
+    }
+
+    public function test_module_codes_without_translation_fall_back_to_http_text(): void
+    {
+        app()->setLocale('de');
+
+        $this->getJson('/api/v1/term-merged')->assertJsonPath('title', 'Conflict');
+    }
+
+    public function test_every_common_code_is_translated_in_all_languages(): void
+    {
+        $codes = array_keys(require __DIR__.'/../../lang/en/problems.php');
+        foreach (['de', 'fr', 'it'] as $locale) {
+            $this->assertSame($codes, array_keys(require __DIR__."/../../lang/{$locale}/problems.php"), $locale);
+        }
+    }
 }

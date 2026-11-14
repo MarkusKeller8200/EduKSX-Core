@@ -46,6 +46,7 @@ final class CoreServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([__DIR__.'/../config/eduksx.php' => config_path('eduksx.php')], 'eduksx-config');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'eduksx');
         $this->publishesMigrations([__DIR__.'/../database/migrations/events' => database_path('migrations')], 'eduksx-events-migrations');
         $this->publishesMigrations([__DIR__.'/../database/migrations/history' => database_path('migrations')], 'eduksx-history-migrations');
 
