@@ -6,6 +6,10 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ## [Unveröffentlicht]
 
+### Geändert
+
+- **Redaktionell:** Verweis auf das umbenannte Repo EduKSX-Ident (vorher EdukSX-Ident) im Projektstand.
+
 ## [0.2.1] – 2026-11-14
 
 ### Geändert
