@@ -1,7 +1,7 @@
 # EduKSX-Core – Projektstand
 
 > Stand 14.11.2026: Release 0.2.0 (#13–#16, #11 geschlossen). Als Nächstes Glossary #189/#187
-> und Ident 0.2 (EdukSX-Ident #8–#13) auf Core 0.2; Core 0.3 (OIDC, Token-Prüfung, Standardtabellen) nach PoC #36.
+> und Ident 0.2 (EduKSX-Ident #8–#13) auf Core 0.2; Core 0.3 (OIDC, Token-Prüfung, Standardtabellen) nach PoC #36.
 
 ## Umgesetzt
 
