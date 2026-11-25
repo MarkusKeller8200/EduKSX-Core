@@ -98,6 +98,29 @@ Jede Änderung landet mit Feldern, `request_id`, Transaktion und handelnder Pers
 personenbezogen, besonders schützenswert und geheim nur als `changed`. Quelle für Importe:
 `DataChanges::withSource('import', fn () => …)`; Kontolöschung: `DataChanges::forget($personId)`.
 
+### Einstellungen und Feature-Schalter
+
+Werte, die in der Administration einstellbar sind (EduKSX-Architektur KONZEPT-STACK ST5). Vorrang: Umgebungsvariable
+(sperrt die Einstellung) → Administration → Vorgabe. Gespeichert werden nur Abweichungen, Geheimnisse verschlüsselt,
+jede Änderung in `data_changes`.
+
+```bash
+php artisan vendor:publish --tag=eduksx-settings-migrations
+```
+
+```php
+// config/eduksx.php
+'settings' => ['definitions' => [
+    'mcp.enabled' => ['type' => 'bool', 'label' => 'MCP-Server', 'default' => false, 'env' => 'APP_MCP'],
+    'retention.months' => ['type' => 'int', 'label' => 'Löschfrist', 'default' => 24, 'min' => 6, 'max' => 60],
+]],
+
+$settings = app(\EduKSX\Core\Settings\Settings::class);
+$settings->enabled('mcp.enabled');                       // Feature-Schalter
+$settings->set(['retention.months' => 36], $actorId);    // Recht prüft das Modul (z. B. settings.admin)
+$settings->source('mcp.enabled')->label();               // Umgebung | Administration | Vorgabe
+```
+
 ### Plattform-Schemas
 
 `resources/spec/v1/` enthält die Schemas aus `spec/` des Repos EduKSX-Architektur unverändert (Herkunft und
