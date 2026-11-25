@@ -8,6 +8,7 @@ use EduKSX\Core\Http\Middleware\AssignRequestId;
 use EduKSX\Core\Http\Middleware\SecurityHeaders;
 use EduKSX\Core\Platform\Health;
 use EduKSX\Core\Platform\Manifest;
+use EduKSX\Core\Settings\Settings;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Http\Kernel;
@@ -28,6 +29,8 @@ final class CoreServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/eduksx.php', 'eduksx');
+        // je Anfrage frisch (Octane, Warteschlange): gespeicherte Werte werden pro Instanz zwischengespeichert
+        $this->app->scoped(Settings::class, fn () => new Settings((string) config('eduksx.settings.table', 'settings')));
     }
 
     /**
@@ -49,6 +52,7 @@ final class CoreServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'eduksx');
         $this->publishesMigrations([__DIR__.'/../database/migrations/events' => database_path('migrations')], 'eduksx-events-migrations');
         $this->publishesMigrations([__DIR__.'/../database/migrations/history' => database_path('migrations')], 'eduksx-history-migrations');
+        $this->publishesMigrations([__DIR__.'/../database/migrations/settings' => database_path('migrations')], 'eduksx-settings-migrations');
 
         $this->applyCorsDefaults();
 

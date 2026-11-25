@@ -6,6 +6,13 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ## [Unveröffentlicht]
 
+### Neu
+
+- **Einstellungen und Feature-Schalter (#31):** `EduKSX\Core\Settings\Settings` nach EduKSX-Architektur KONZEPT-STACK ST5,
+  herausgelöst aus dem Glossary: Definitionen je Modul (Konfiguration oder `define()`), Vorrang Umgebung → Administration
+  → Vorgabe mit Sperre und Herkunft (`source()`), nur Abweichungen in der Tabelle `settings` (Migration
+  `eduksx-settings-migrations`), Geheimnisse verschlüsselt, jede Änderung in `data_changes`; `enabled()` für Schalter.
+
 ### Geändert
 
 - **Stack (#29):** PHP 8.5, CI mit PostgreSQL 18 (EduKSX-Architektur KONZEPT-STACK ST2).

@@ -82,6 +82,19 @@ return [
     'api_paths' => ['api/*'],
 
     /*
+    | Einstellungen und Feature-Schalter (KONZEPT-STACK ST5): Schlüssel → Definition mit type (bool, int, choice, text,
+    | email, url, secret), label, default, group, hint, min, max, unit, options, env. Ist die Umgebungsvariable `env`
+    | gesetzt, gilt ihr Wert und die Einstellung ist in der Administration gesperrt.
+    | Tabelle: php artisan vendor:publish --tag=eduksx-settings-migrations
+    */
+    'settings' => [
+        'table' => 'settings',
+        'definitions' => [
+            // 'mcp.enabled' => ['type' => 'bool', 'label' => 'MCP-Server', 'default' => false, 'env' => 'APP_MCP'],
+        ],
+    ],
+
+    /*
     | Abruflimit «api» je Minute (API-Standard C5): je Token, sonst je Adresse.
     */
     'rate_limit' => [
