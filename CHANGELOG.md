@@ -6,6 +6,10 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ## [Unveröffentlicht]
 
+### Geändert
+
+- **Stack (#29):** PHP 8.5, CI mit PostgreSQL 18 (EduKSX-Architektur KONZEPT-STACK ST2).
+
 ## [0.2.1] – 2026-11-14
 
 ### Geändert
