@@ -3,6 +3,7 @@
 namespace EduKSX\Core\Events;
 
 use EduKSX\Core\Http\ProblemException;
+use EduKSX\Core\Logging\TraceContext;
 use EduKSX\Core\Spec\Schemas;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -41,6 +42,10 @@ final class ReceivePlatformEvent
         $event = json_decode($body);
         if (! $event instanceof \stdClass) {
             throw ProblemException::common(422, 'invalid_event', 'Kein JSON-Objekt.');
+        }
+        // Trace des Absenders fortsetzen (CloudEvents-Erweiterung traceparent, KONZEPT-PROTOKOLLIERUNG §7)
+        if (is_string($event->traceparent ?? null)) {
+            TraceContext::start($event->traceparent);
         }
         $errors = Schemas::errors('event', $event);
         if ($errors !== []) {

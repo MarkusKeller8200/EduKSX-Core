@@ -14,7 +14,8 @@
     "datacontenttype": {"const": "application/json"},
     "subject": {"type": "string"},
     "dataschema": {"type": "string", "format": "uri"},
-    "data": {"type": "object"}
+    "data": {"type": "object"},
+    "traceparent": {"type": "string", "pattern": "^00-[0-9a-f]{32}-[0-9a-f]{16}-[0-9a-f]{2}$", "description": "W3C Trace Context des Absenders (CloudEvents-Erweiterung distributed tracing, KONZEPT-PROTOKOLLIERUNG §7); optional."}
   },
   "additionalProperties": false,
   "$defs": {
