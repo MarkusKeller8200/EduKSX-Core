@@ -17,9 +17,34 @@
   ],
   "scopes_required": [],
   "roles": [
+    "reader",
     "editor",
     "moderator",
     "admin"
+  ],
+  "abilities": [
+    {
+      "name": "terms.read",
+      "scope_action": "read"
+    },
+    {
+      "name": "proposals.write",
+      "scope_action": "write"
+    },
+    {
+      "name": "terms.publish",
+      "scope_action": "write"
+    },
+    {
+      "name": "users.admin",
+      "scope_action": "admin"
+    }
+  ],
+  "locales": [
+    "de",
+    "fr",
+    "it",
+    "en"
   ],
   "events_emitted": [
     "glossary.term.published"

@@ -8,6 +8,11 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ### Neu
 
+- **Protokollierung (#33):** `UseEduksxFormat` (tap für Protokollkanäle: JSON mit Zeit in UTC, Modul, `request_id`,
+  `trace_id`) und `MaskPersonalData` (Feldnamen und Muster: E-Mail, Telefon, AHV-Nummer, IBAN, Token); W3C `traceparent`
+  übernehmen oder beginnen (`TraceContext`), `request_id` und `trace_id` im Laravel-Context (gehen in Aufträge mit),
+  `TraceContext::headers()` für Dienst-zu-Dienst-Aufrufe, Trace aus S4-Ereignissen; Konformitätstest
+  `assertLoggingMasksPersonalData()`. Schemas aus EduKSX-Architektur übernommen (S4 `traceparent`, Steckbrief `abilities`).
 - **Einstellungen und Feature-Schalter (#31):** `EduKSX\Core\Settings\Settings` nach EduKSX-Architektur KONZEPT-STACK ST5,
   herausgelöst aus dem Glossary: Definitionen je Modul (Konfiguration oder `define()`), Vorrang Umgebung → Administration
   → Vorgabe mit Sperre und Herkunft (`source()`), nur Abweichungen in der Tabelle `settings` (Migration

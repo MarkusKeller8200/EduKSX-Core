@@ -3,10 +3,12 @@
 namespace EduKSX\Core\Testing;
 
 use EduKSX\Core\Data\DataClasses;
+use EduKSX\Core\Logging\MaskPersonalData;
 use EduKSX\Core\Module;
 use EduKSX\Core\Spec\Schemas;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route as RouteFacade;
 use Illuminate\Support\Facades\Schema;
 
@@ -24,6 +26,7 @@ use Illuminate\Support\Facades\Schema;
  *         public function test_openapi(): void { $this->assertOpenApiConforms(base_path('openapi/glossary-v1.json')); }
  *         public function test_platform(): void { $this->assertPlatformEndpointsConform(); }
  *         public function test_data_classes(): void { $this->assertDataClassesComplete(); }
+ *         public function test_logging(): void { $this->assertLoggingMasksPersonalData(); }
  *     }
  *
  * Core 0.1 prüft: Namen, STRICT (SQLite), Index auf Fremdschlüsseln; Fehlerformat, Request-ID,
@@ -205,6 +208,32 @@ trait AssertsConformance
         $this->assertContains($health->getStatusCode(), [200, 503]);
         $this->assertSame([], Schemas::errors('health', json_decode((string) $health->getContent())),
             '/health entspricht nicht spec/v1/health.schema.json.');
+    }
+
+    /**
+     * KONZEPT-PROTOKOLLIERUNG §6: Der Standardkanal des Moduls maskiert Personendaten (tap UseEduksxFormat).
+     * Schreibt Beispiel-Personendaten in den Kanal und prüft die Ausgabe.
+     */
+    public function assertLoggingMasksPersonalData(?string $channel = null): void
+    {
+        $file = tempnam(sys_get_temp_dir(), 'eduksx-log-');
+        $this->assertIsString($file);
+        $name = 'eduksx_conformance';
+        $base = (array) config('logging.channels.'.($channel ?? config('logging.default')), []);
+        config(['logging.channels.'.$name => ['driver' => 'single', 'path' => $file, 'level' => 'debug', 'tap' => $base['tap'] ?? []]]);
+        try {
+            Log::channel($name)->info('Konformität anna.muster@example.org 079 123 45 67', [
+                'email' => 'anna.muster@example.org', 'name' => 'Anna Muster', 'note' => 'IBAN CH93 0076 2011 6238 5295 7',
+            ]);
+            $output = (string) file_get_contents($file);
+        } finally {
+            @unlink($file);
+        }
+        foreach (['anna.muster@example.org', 'Anna Muster', '079 123 45 67', 'CH93 0076 2011 6238 5295 7'] as $value) {
+            $this->assertStringNotContainsString($value, $output,
+                "Protokoll enthält Personendaten ({$value}) – tap EduKSX\\Core\\Logging\\UseEduksxFormat im Kanal fehlt (KONZEPT-PROTOKOLLIERUNG §6).");
+        }
+        $this->assertStringContainsString(MaskPersonalData::MASK, $output);
     }
 
     /**

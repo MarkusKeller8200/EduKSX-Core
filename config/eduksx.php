@@ -95,6 +95,14 @@ return [
     ],
 
     /*
+    | Protokollierung (KONZEPT-PROTOKOLLIERUNG): Kanal mit 'tap' => [\EduKSX\Core\Logging\UseEduksxFormat::class] in
+    | config/logging.php. Weitere Feldnamen, deren Werte immer maskiert werden (zusätzlich zu E-Mail, Name, Token …).
+    */
+    'logging' => [
+        'mask_keys' => [],
+    ],
+
+    /*
     | Abruflimit «api» je Minute (API-Standard C5): je Token, sonst je Adresse.
     */
     'rate_limit' => [

@@ -121,6 +121,21 @@ $settings->set(['retention.months' => 36], $actorId);    // Recht prüft das Mod
 $settings->source('mcp.enabled')->label();               // Umgebung | Administration | Vorgabe
 ```
 
+### Protokollierung
+
+Nach EduKSX-Architektur KONZEPT-PROTOKOLLIERUNG: JSON je Zeile, Personendaten maskiert, `request_id` und `trace_id` in
+jedem Eintrag und in Aufträgen der Warteschlange.
+
+```php
+// config/logging.php des Moduls
+'stderr' => [..., 'tap' => [\EduKSX\Core\Logging\UseEduksxFormat::class]],
+
+// Aufruf an ein anderes Modul (S2): Trace und request_id weitergeben
+Http::withHeaders(\EduKSX\Core\Logging\TraceContext::headers())->get($url);
+```
+
+Im Konformitätstest: `$this->assertLoggingMasksPersonalData();`
+
 ### Plattform-Schemas
 
 `resources/spec/v1/` enthält die Schemas aus `spec/` des Repos EduKSX-Architektur unverändert (Herkunft und

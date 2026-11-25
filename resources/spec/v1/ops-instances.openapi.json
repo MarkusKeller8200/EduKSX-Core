@@ -42,7 +42,7 @@
             "instanceToken": []
           }
         ],
-        "x-eduksx-ability": "instance.report",
+        "x-eduksx-ability": "instances.report",
         "parameters": [
           {
             "$ref": "#/components/parameters/InstanceId"
@@ -116,7 +116,7 @@
             "instanceToken": []
           }
         ],
-        "x-eduksx-ability": "job.read",
+        "x-eduksx-ability": "jobs.read",
         "parameters": [
           {
             "$ref": "#/components/parameters/InstanceId"

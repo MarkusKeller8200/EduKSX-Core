@@ -93,10 +93,57 @@
     "roles": {
       "type": "array",
       "uniqueItems": true,
-      "description": "Rollen, die Ident für dieses Modul vergeben kann (Claim eduksx_roles).",
+      "description": "Rollen, die Ident für dieses Modul vergeben kann (Claim eduksx_roles); mindestens reader, editor, admin (KONZEPT-ROLLEN RO1).",
       "items": {
         "type": "string",
         "pattern": "^[a-z][a-z0-9_]*$"
+      }
+    },
+    "abilities": {
+      "type": "array",
+      "description": "Rechte des Moduls nach KONZEPT-ROLLEN RO2 (<ressource>.<aktion>) mit zugeordneter Scope-Aktion.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "scope_action"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+          },
+          "scope_action": {
+            "enum": [
+              "read",
+              "write",
+              "delete",
+              "admin"
+            ]
+          },
+          "sensitive": {
+            "type": "boolean",
+            "description": "Recht auf Felder der Klasse «besonders schützenswert» (RO3)."
+          }
+        }
+      }
+    },
+    "locales": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "contains": {
+        "const": "de"
+      },
+      "description": "Sprachen der fachlichen Inhalte des Moduls (DB-Standard D1, DB-E16); de ist Pflicht.",
+      "items": {
+        "enum": [
+          "de",
+          "fr",
+          "it",
+          "en"
+        ]
       }
     },
     "events_emitted": {
@@ -122,7 +169,7 @@
         "confidential",
         "highly_sensitive"
       ],
-      "description": "Höchste Datenklasse des Moduls (Plattform §6)."
+      "description": "Höchste Stufe nach Kanton Zürich (KONZEPT-DATENSCHUTZ-ZH §2): public, internal, confidential. highly_sensitive ist veraltet und gilt als confidential."
     },
     "urls": {
       "type": "object",
