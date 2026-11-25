@@ -26,6 +26,8 @@ final class SettingsTest extends TestCase
     protected function defineEnvironment($app): void
     {
         parent::defineEnvironment($app);
+        $app['config']->set('app.key', 'base64:'.base64_encode(str_repeat('k', 32)));
+        $app['config']->set('app.cipher', 'AES-256-CBC');
         $app['config']->set('eduksx.settings.definitions', [
             'mcp.enabled' => ['type' => 'bool', 'label' => 'MCP-Server', 'default' => false, 'env' => 'DEMO_MCP'],
             'retention.months' => ['type' => 'int', 'label' => 'Löschfrist', 'default' => 24, 'min' => 6, 'max' => 60, 'unit' => 'Monate'],
@@ -112,6 +114,7 @@ final class SettingsTest extends TestCase
         $this->assertSame(SettingSource::Environment, $this->settings()->source('mcp.enabled'));
         // gesperrt: set() überspringt den Wert
         $this->assertSame([], $this->settings()->set(['mcp.enabled' => true]));
+        app()->setLocale('de');
         $this->assertSame('Umgebung', SettingSource::Environment->label());
     }
 
