@@ -2,6 +2,7 @@
 
 namespace EduKSX\Core;
 
+use EduKSX\Core\Auth\LocalLogin;
 use EduKSX\Core\Console\DebugCommand;
 use EduKSX\Core\Console\LogPackageCommand;
 use EduKSX\Core\Console\RolesMatrixCommand;
@@ -38,6 +39,9 @@ final class CoreServiceProvider extends ServiceProvider
         $this->app->scoped(Settings::class, function (): Settings {
             $settings = new Settings((string) config('eduksx.settings.table', 'settings'));
             $settings->define(OrganizationDebug::SETTING, OrganizationDebug::definition());
+            if (config('eduksx.auth.local', false)) {
+                LocalLogin::register($settings);
+            }
 
             return $settings;
         });

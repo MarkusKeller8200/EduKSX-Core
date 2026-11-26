@@ -8,6 +8,10 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ### Neu
 
+- **Anmeldung, Stufe 1 (#41):** nach KONZEPT-ANMELDUNG §3/AN5, Quelle Glossary: `Auth\Totp`, `Auth\RecoveryCodes`,
+  `Auth\PasswordRules` (15/12 Zeichen, Liste bekannter Passwörter, externer Abgleich nur per Schalter),
+  `Auth\LoginThrottle`, Middleware `SessionTimeout` (30 Min./8 Std./12 Std., Einstellungen `auth.*`),
+  `LocalLogin::log()` ins Sicherheitsprotokoll; Texte de/en/fr/it.
 - **Rechte und Rollen (#39):** `EduKSX\Core\Access\Abilities` nach KONZEPT-ROLLEN RO1/RO2: Rechte mit Scope-Aktion und
   Schutzklasse, Rollen mit Vererbung, Gates mit Begrenzung durch den Token-Scope (API C2), `roles` und `abilities` im
   Steckbrief, Befehl `eduksx:rollen-rechte` (Matrix `docs/ROLLEN-RECHTE.md`, `--check`), Konformitätstest
