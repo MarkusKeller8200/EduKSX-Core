@@ -35,6 +35,8 @@ final class SettingsTest extends TestCase
             'imprint.email' => ['type' => 'email', 'label' => 'Kontakt', 'default' => ''],
             'links.source' => ['type' => 'url', 'label' => 'Quellcode', 'default' => fn () => 'https://example.org/code'],
             'metrics.token' => ['type' => 'secret', 'label' => 'Token für /metrics'],
+            'links.github_repo' => ['type' => 'text', 'label' => 'GitHub-Repository', 'default' => '',
+                'pattern' => '#^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$#', 'pattern_hint' => 'Form «Besitzer/Repository».'],
         ]);
     }
 
@@ -156,5 +158,22 @@ final class SettingsTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->settings()->get('gibt.es.nicht');
+    }
+
+    public function test_text_mit_muster(): void
+    {
+        $this->assertSame(['links.github_repo'], $this->settings()->set(['links.github_repo' => ' MarkusKeller8200/EduKSX-Glossary ']));
+        $this->assertSame('MarkusKeller8200/EduKSX-Glossary', $this->settings()->string('links.github_repo'));
+        $this->settings()->set(['links.github_repo' => '']);   // leer blendet aus, erlaubt
+
+        try {
+            $this->settings()->set(['links.github_repo' => 'https://github.com/x']);
+            $this->fail('Muster nicht geprüft');
+        } catch (InvalidArgumentException $e) {
+            $this->assertSame('«GitHub-Repository»: Form «Besitzer/Repository».', $e->getMessage());
+        }
+
+        $this->expectException(InvalidArgumentException::class);
+        SettingDefinition::fromArray('x.y', ['type' => 'int', 'pattern' => '#^\\d+$#']);
     }
 }
