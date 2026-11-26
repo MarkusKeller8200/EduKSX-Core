@@ -1,6 +1,6 @@
 # Übergabe an einen neuen Chat – EduKSX-Core
 
-Stand: **26.11.2026** – Release 0.2.1; unveröffentlicht: PHP 8.5, Einstellungen, Protokollierung, Sicherheitsprotokoll.
+Stand: **26.11.2026** – Release 0.3.0 (PHP 8.5, Einstellungen, Protokollierung, Sicherheitsprotokoll).
 [PROJEKTSTAND.md](PROJEKTSTAND.md) (aktuell), [PROJEKTSTAND-ARCHIV.md](PROJEKTSTAND-ARCHIV.md) (Verlauf). Konzept liegt im
 Repo EduKSX-Architektur (`docs/KONZEPT-CORE.md`). Bei jeder Übergabe nachführen.
 
@@ -12,7 +12,7 @@ Repo EduKSX-Architektur (`docs/KONZEPT-CORE.md`). Bei jeder Übergabe nachführe
 - Gemergt seit 0.2.1: Stack PHP 8.5 (#29), Einstellungen (#31, PR #32), Protokollierung (#33, PR #34), Debug je
   Organisation, Protokollpaket und Sicherheitsprotokoll (#35, #36, PR #37).
 - Lokal läuft nur PHP 8.3 – Tests (Symfony 8 braucht PHP ≥ 8.4) laufen in der CI (`tests`, SQLite und PostgreSQL 18).
-- Nächster Release erst nach Freigabe; Kandidat 0.3.0 (neue Bausteine), sobald der Beta-Test durch ist.
+- 0.3.0 im Chat freigegeben und veröffentlicht (26.11.2026); Korrekturen aus dem Beta-Test als 0.3.x.
 
 **Offene Issues und ihr Status**
 

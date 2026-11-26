@@ -6,6 +6,8 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ## [Unveröffentlicht]
 
+## [0.3.0] – 2026-11-26
+
 ### Neu
 
 - **Sicherheitsprotokoll (#36):** `EduKSX\Core\Security\SecurityLog` nach DB-Standard A7/DB-E7: Tabelle

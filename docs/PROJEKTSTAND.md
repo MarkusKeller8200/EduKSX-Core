@@ -1,7 +1,7 @@
 # EduKSX-Core – Projektstand
 
-> Stand 26.11.2026: Release 0.2.1; seither Stack PHP 8.5 (#29) und die Bausteine Einstellungen (#31), Protokollierung
-> (#33, #35) und Sicherheitsprotokoll (#36) – unveröffentlicht. Als Nächstes Rollen/Policy und Anmeldung aus #28;
+> Stand 26.11.2026: Release 0.3.0 – Stack PHP 8.5 (#29) und die Bausteine Einstellungen (#31), Protokollierung
+> (#33, #35) und Sicherheitsprotokoll (#36). Als Nächstes Rollen/Policy und Anmeldung aus #28;
 > Core 0.3 (OIDC, Token-Prüfung, Standardtabellen) nach dem Zitadel-PoC (EduKSX-Architektur #36). Module:
 > [EduKSX-Glossary](https://github.com/MarkusKeller8200/EduKSX-Glossary) und
 > [EduKSX-Ident](https://github.com/MarkusKeller8200/EduKSX-Ident) (Ident #8–#13).
@@ -19,10 +19,10 @@
 | Empfang S4-Ereignisse, Signer, CloudEvent (#14) | veröffentlicht | 0.2.0 | Plattform S4, SP6 |
 | Historie data_changes mit Datenklassen (#15) | veröffentlicht | 0.2.0 | DB-Standard A7, B2 |
 | Plattform-Schemas aus spec/ (#16) | veröffentlicht | 0.2.0 | Core C11 |
-| Einstellungen und Feature-Schalter (#31) | im Beta-Test | unveröffentlicht | KONZEPT-STACK ST5 |
-| Protokollierung: JSON, Maskierung, traceparent (#33) | im Beta-Test | unveröffentlicht | KONZEPT-PROTOKOLLIERUNG §6, §7 |
-| Befristetes Debug je Organisation, Protokollpaket (#35) | im Beta-Test | unveröffentlicht | KONZEPT-PROTOKOLLIERUNG §5, §9 |
-| Sicherheitsprotokoll, hash-verkettet (#36) | im Beta-Test | unveröffentlicht | DB-Standard A7, DB-E7 |
+| Einstellungen und Feature-Schalter (#31) | im Beta-Test | 0.3.0 | KONZEPT-STACK ST5 |
+| Protokollierung: JSON, Maskierung, traceparent (#33) | im Beta-Test | 0.3.0 | KONZEPT-PROTOKOLLIERUNG §6, §7 |
+| Befristetes Debug je Organisation, Protokollpaket (#35) | im Beta-Test | 0.3.0 | KONZEPT-PROTOKOLLIERUNG §5, §9 |
+| Sicherheitsprotokoll, hash-verkettet (#36) | im Beta-Test | 0.3.0 | DB-Standard A7, DB-E7 |
 
 ## Offen bzw. geplant
 
