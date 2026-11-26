@@ -100,7 +100,31 @@ return [
     */
     'logging' => [
         'mask_keys' => [],
+        // Protokollpaket für den Support (§9): öffentlicher Schlüssel (X25519, base64) aus
+        // `php artisan eduksx:protokollpaket --keypair` beim Support; das Schlüsselpaar bleibt beim Support.
+        'package' => [
+            'public_key' => env('EDUKSX_SUPPORT_PUBLIC_KEY'),
+            'sources' => null,                  // null = storage/logs; sonst Liste von Ordnern bzw. Dateien
+            'directory' => null,                // null = storage/app/eduksx/protokollpakete
+            'max_days' => 31,
+            'max_bytes' => 20 * 1024 * 1024,
+            'retention_days' => 30,
+        ],
     ],
+
+    /*
+    | Sicherheitsprotokoll (DB-Standard A7, hash-verkettet, Frist 1 Jahr nach DB-E15). Prüfpunkt täglich ins Protokoll.
+    | Tabelle: php artisan vendor:publish --tag=eduksx-security-migrations
+    */
+    'security_log' => [
+        'table' => 'security_events',
+        'retention_days' => 365,
+    ],
+
+    /*
+    | Zeitplan von Core: Debug-Ablauf (jede Minute), Prüfpunkt Sicherheitsprotokoll, Löschen alter Protokollpakete.
+    */
+    'schedule' => true,
 
     /*
     | Abruflimit «api» je Minute (API-Standard C5): je Token, sonst je Adresse.

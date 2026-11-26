@@ -4,8 +4,10 @@ namespace EduKSX\Core\Logging;
 
 use Illuminate\Log\Logger;
 use Monolog\Formatter\JsonFormatter;
+use Monolog\Handler\AbstractHandler;
 use Monolog\Handler\FormattableHandlerInterface;
 use Monolog\Handler\ProcessableHandlerInterface;
+use Monolog\Level;
 use Monolog\LogRecord;
 
 /**
@@ -15,7 +17,8 @@ use Monolog\LogRecord;
  *     'stderr' => [..., 'tap' => [\EduKSX\Core\Logging\UseEduksxFormat::class]],
  *
  * Felder: time (UTC, ISO 8601), level, message, module, request_id, trace_id, context. Der Betrieb sammelt die
- * Ausgabe von stdout/stderr bzw. per OTLP (Plattform 7.3a).
+ * Ausgabe von stdout/stderr bzw. per OTLP (Plattform 7.3a). Einträge unter der Stufe des Kanals kommen nur durch,
+ * solange für die Organisation der Anfrage befristetes Debug läuft (OrganizationDebug, §5).
  */
 final class UseEduksxFormat
 {
@@ -30,6 +33,7 @@ final class UseEduksxFormat
         if (! $monolog instanceof \Monolog\Logger) {
             return;
         }
+        $handlers = [];
         foreach ($monolog->getHandlers() as $handler) {
             if ($handler instanceof ProcessableHandlerInterface) {
                 // Reihenfolge: zuerst Felder ergänzen, dann maskieren (pushProcessor legt vorne an)
@@ -39,7 +43,15 @@ final class UseEduksxFormat
             if ($handler instanceof FormattableHandlerInterface) {
                 $handler->setFormatter(new JsonFormatter(JsonFormatter::BATCH_MODE_NEWLINES, true, true));
             }
+            // Stufe des Kanals in die Schranke verlegen, damit befristetes Debug je Organisation durchkommt
+            if ($handler instanceof AbstractHandler && ! $handler instanceof DebugGate) {
+                $level = $handler->getLevel();
+                $handler->setLevel(Level::Debug);
+                $handler = new DebugGate($handler, $level);
+            }
+            $handlers[] = $handler;
         }
+        $monolog->setHandlers($handlers);
     }
 
     /** Einheitlicher Aufbau; request_id und trace_id aus dem Laravel-Context (extra) bzw. dem Kontext. */

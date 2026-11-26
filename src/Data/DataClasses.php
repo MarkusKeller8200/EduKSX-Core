@@ -40,6 +40,27 @@ final class DataClasses
             'source' => DataClass::Internal,
             'received_at' => DataClass::Internal,
         ],
+        'settings' => [
+            'key' => DataClass::Internal,
+            'value' => DataClass::Secret,          // kann verschlüsselte Geheimnisse enthalten
+            'updated_by_id' => DataClass::Internal,
+            'updated_at' => DataClass::Internal,
+        ],
+        'security_events' => [
+            'id' => DataClass::Internal,
+            'event_id' => DataClass::Internal,
+            'occurred_at' => DataClass::Internal,
+            'organization_id' => DataClass::Internal,
+            'action' => DataClass::Internal,
+            'actor_type' => DataClass::Internal,
+            'actor_id' => DataClass::Internal,
+            'actor_ref' => DataClass::Internal,
+            'reason' => DataClass::Internal,
+            'details' => DataClass::Internal,
+            'request_id' => DataClass::Internal,
+            'previous_hash' => DataClass::Internal,
+            'hash' => DataClass::Internal,
+        ],
     ];
 
     /** @var array<string, array<string, DataClass>> */
