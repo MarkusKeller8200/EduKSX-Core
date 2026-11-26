@@ -2,10 +2,14 @@
 
 namespace EduKSX\Core;
 
+use EduKSX\Core\Console\DebugCommand;
+use EduKSX\Core\Console\LogPackageCommand;
+use EduKSX\Core\Console\SecurityLogCommand;
 use EduKSX\Core\Events\ReceivedEvent;
 use EduKSX\Core\Events\ReceivePlatformEvent;
 use EduKSX\Core\Http\Middleware\AssignRequestId;
 use EduKSX\Core\Http\Middleware\SecurityHeaders;
+use EduKSX\Core\Logging\OrganizationDebug;
 use EduKSX\Core\Platform\Health;
 use EduKSX\Core\Platform\Manifest;
 use EduKSX\Core\Settings\Settings;
@@ -30,7 +34,12 @@ final class CoreServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/eduksx.php', 'eduksx');
         // je Anfrage frisch (Octane, Warteschlange): gespeicherte Werte werden pro Instanz zwischengespeichert
-        $this->app->scoped(Settings::class, fn () => new Settings((string) config('eduksx.settings.table', 'settings')));
+        $this->app->scoped(Settings::class, function (): Settings {
+            $settings = new Settings((string) config('eduksx.settings.table', 'settings'));
+            $settings->define(OrganizationDebug::SETTING, OrganizationDebug::definition());
+
+            return $settings;
+        });
     }
 
     /**
@@ -53,6 +62,18 @@ final class CoreServiceProvider extends ServiceProvider
         $this->publishesMigrations([__DIR__.'/../database/migrations/events' => database_path('migrations')], 'eduksx-events-migrations');
         $this->publishesMigrations([__DIR__.'/../database/migrations/history' => database_path('migrations')], 'eduksx-history-migrations');
         $this->publishesMigrations([__DIR__.'/../database/migrations/settings' => database_path('migrations')], 'eduksx-settings-migrations');
+        $this->publishesMigrations([__DIR__.'/../database/migrations/security' => database_path('migrations')], 'eduksx-security-migrations');
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([DebugCommand::class, LogPackageCommand::class, SecurityLogCommand::class]);
+        }
+        if (config('eduksx.schedule', true)) {
+            $this->callAfterResolving(Schedule::class, function (Schedule $schedule): void {
+                $schedule->command('eduksx:debug', ['--expire' => true])->everyMinute()->name('eduksx-debug-expire')->withoutOverlapping();
+                $schedule->command('eduksx:sicherheitsprotokoll', ['--prune' => true])->dailyAt('02:10')->name('eduksx-security-checkpoint');
+                $schedule->command('eduksx:protokollpaket', ['--prune' => true])->dailyAt('02:20')->name('eduksx-log-package-prune');
+            });
+        }
 
         $this->applyCorsDefaults();
 

@@ -8,6 +8,14 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ### Neu
 
+- **Sicherheitsprotokoll (#36):** `EduKSX\Core\Security\SecurityLog` nach DB-Standard A7/DB-E7: Tabelle
+  `security_events` (Migration `eduksx-security-migrations`), hash-verkettet mit eindeutigem `previous_hash`,
+  maskierte Angaben, Kopie ins Protokoll, `verify()`, Prüfpunkt und Frist 1 Jahr (`eduksx:sicherheitsprotokoll`),
+  Pseudonym `actor_ref` für Kontolöschungen; Datenklassen für `settings` und `security_events`.
+- **Protokollierung Teil 2 (#35):** befristetes Debug je Organisation (`OrganizationDebug`, `eduksx:debug`, höchstens 60
+  Minuten, Ablauf jede Minute, Ein/Aus/Ablauf im Sicherheitsprotokoll, Maskierung bleibt) und Protokollpaket für den
+  Support (`LogPackage`, `eduksx:protokollpaket`: maskiert, mit Version, Steckbrief und /health, verschlüsselt mit
+  libsodium, Löschung nach 30 Tagen).
 - **Protokollierung (#33):** `UseEduksxFormat` (tap für Protokollkanäle: JSON mit Zeit in UTC, Modul, `request_id`,
   `trace_id`) und `MaskPersonalData` (Feldnamen und Muster: E-Mail, Telefon, AHV-Nummer, IBAN, Token); W3C `traceparent`
   übernehmen oder beginnen (`TraceContext`), `request_id` und `trace_id` im Laravel-Context (gehen in Aufträge mit),
@@ -21,6 +29,7 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 ### Geändert
 
 - **Stack (#29):** PHP 8.5, CI mit PostgreSQL 18 (EduKSX-Architektur KONZEPT-STACK ST2).
+- **Projektstand (#27):** Verweis auf das umbenannte Repo EduKSX-Ident, Stand der neuen Bausteine.
 
 ## [0.2.1] – 2026-11-14
 

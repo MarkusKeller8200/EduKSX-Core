@@ -140,7 +140,8 @@ final class DataChanges
         return (string) config('eduksx.history.table', 'data_changes');
     }
 
-    private static function actor(): Actor
+    /** Wer gerade handelt (auch für das Sicherheitsprotokoll). */
+    public static function actor(): Actor
     {
         if (self::$actorResolver !== null) {
             return (self::$actorResolver)() ?? Actor::system();

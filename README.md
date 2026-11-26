@@ -136,6 +136,40 @@ Http::withHeaders(\EduKSX\Core\Logging\TraceContext::headers())->get($url);
 
 Im Konformitätstest: `$this->assertLoggingMasksPersonalData();`
 
+**Befristetes Debug je Organisation (§5):** Einträge unter der Stufe des Kanals (z. B. `LOG_LEVEL=info`) kommen nur
+durch, solange für die Organisation der Anfrage Debug läuft – höchstens 60 Minuten, mit Grund, danach automatisch aus.
+Das Modul setzt nach der Anmeldung `Context::add('organization_id', $id)`; schalten darf nur der Super-Admin
+(`OrganizationDebug::enable($org, 30, $grund, $actor)` hinter dem Recht des Moduls) oder die Konsole:
+
+```bash
+php artisan eduksx:debug <organisation> --minutes=30 --reason="Ticket 42"   # --off schaltet vorzeitig aus
+```
+
+Gespeichert in der Einstellung `eduksx.logging.debug` (braucht die Tabellen `settings` und `data_changes`).
+
+**Protokollpaket für den Support (§9):** maskierte Protokolle eines Zeitraums (Vorgabe `storage/logs`), Version,
+Steckbrief und /health, verschlüsselt für den öffentlichen Schlüssel des Supports (`EDUKSX_SUPPORT_PUBLIC_KEY`,
+libsodium). Der Kunde sendet die Datei selbst; nach 30 Tagen wird sie gelöscht.
+
+```bash
+php artisan eduksx:protokollpaket --from="2026-11-26 08:00" --to="2026-11-26 12:00" --reason="Fall 7"
+php artisan eduksx:protokollpaket --keypair   # nur beim Support: Schlüsselpaar erzeugen
+```
+
+### Sicherheitsprotokoll
+
+Nach DB-Standard A7: unveränderlich und hash-verkettet (`security_events`, Migration `eduksx-security-migrations`),
+Frist 1 Jahr. Angaben werden maskiert, jeder Eintrag geht als Kopie ins Protokoll.
+
+```php
+SecurityLog::record('roles.changed', $organizationId, ['user_id' => $id, 'role' => 'editor'], 'Antrag 12');
+SecurityLog::forget($actorId);   // Kontolöschung: Pseudonym hält die Kette gültig
+```
+
+`php artisan eduksx:sicherheitsprotokoll` prüft die Kette und schreibt den Prüfpunkt (letzter Hash) ins Protokoll –
+der Zeitplan von Core macht das täglich, zusammen mit dem Ablauf des Debugs (jede Minute) und dem Löschen alter
+Protokollpakete. Abschalten mit `eduksx.schedule => false`.
+
 ### Plattform-Schemas
 
 `resources/spec/v1/` enthält die Schemas aus `spec/` des Repos EduKSX-Architektur unverändert (Herkunft und
