@@ -8,6 +8,8 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ### Neu
 
+- **Einstellungen: Text mit Muster (#44):** `pattern` und `pattern_hint` für den Typ `text` (z. B. «Besitzer/Repository»,
+  Glossary #523).
 - **Anmeldung, Stufe 1 (#41):** nach KONZEPT-ANMELDUNG §3/AN5, Quelle Glossary: `Auth\Totp`, `Auth\RecoveryCodes`,
   `Auth\PasswordRules` (15/12 Zeichen, Liste bekannter Passwörter, externer Abgleich nur per Schalter),
   `Auth\LoginThrottle`, Middleware `SessionTimeout` (30 Min./8 Std./12 Std., Einstellungen `auth.*`),

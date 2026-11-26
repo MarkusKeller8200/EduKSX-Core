@@ -9,6 +9,8 @@ use InvalidArgumentException;
  * Eine Einstellung eines Moduls (EduKSX-Architektur KONZEPT-STACK ST5). Vorbild: Glossary `App\Support\Settings`.
  *
  * Typen: `bool` (auch Feature-Schalter), `int`, `choice`, `text`, `email`, `url`, `secret`.
+ * `pattern` (nur `text`): regulärer Ausdruck für nicht leere Werte, `pattern_hint` die Meldung dazu – z. B.
+ * `'pattern' => '#^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$#', 'pattern_hint' => 'Form «Besitzer/Repository».'`.
  * `env`: Umgebungsvariable mit Vorrang – ist sie gesetzt, ist die Einstellung in der Administration gesperrt.
  * `default`: fester Wert oder Closure (z. B. aus der Konfiguration des Moduls).
  */
@@ -31,12 +33,17 @@ final class SettingDefinition
         public readonly ?string $unit = null,
         public readonly array $options = [],
         public readonly ?string $env = null,
+        public readonly ?string $pattern = null,
+        public readonly ?string $patternHint = null,
     ) {
         if (preg_match('/^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)*$/', $key) !== 1) {
             throw new InvalidArgumentException("Ungültiger Schlüssel «{$key}» (Kleinbuchstaben, Ziffern, _ und Punkte).");
         }
         if (! in_array($type, self::TYPES, true)) {
             throw new InvalidArgumentException("Unbekannter Typ «{$type}» für «{$key}».");
+        }
+        if ($pattern !== null && ($type !== 'text' || @preg_match($pattern, '') === false)) {
+            throw new InvalidArgumentException("«{$key}»: pattern nur für Typ text und als gültiger regulärer Ausdruck.");
         }
         if ($type === 'choice' && $options === []) {
             throw new InvalidArgumentException("«{$key}»: Typ choice braucht Auswahl (options).");
@@ -65,6 +72,8 @@ final class SettingDefinition
             unit: isset($definition['unit']) ? (string) $definition['unit'] : null,
             options: $options,
             env: isset($definition['env']) ? (string) $definition['env'] : null,
+            pattern: isset($definition['pattern']) ? (string) $definition['pattern'] : null,
+            patternHint: isset($definition['pattern_hint']) ? (string) $definition['pattern_hint'] : null,
         );
     }
 
@@ -136,6 +145,9 @@ final class SettingDefinition
                 $max = $this->max ?? ($this->type === 'secret' ? 4000 : 200);
                 if (mb_strlen($v) > $max) {
                     throw new InvalidArgumentException("«{$label}»: höchstens {$max} Zeichen.");
+                }
+                if ($this->pattern !== null && $v !== '' && preg_match($this->pattern, $v) !== 1) {
+                    throw new InvalidArgumentException("«{$label}»: ".($this->patternHint ?? 'ungültiges Format.'));
                 }
 
                 return $v;
