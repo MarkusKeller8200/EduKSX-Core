@@ -6,6 +6,13 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ## [Unveröffentlicht]
 
+### Neu
+
+- **Rechte und Rollen (#39):** `EduKSX\Core\Access\Abilities` nach KONZEPT-ROLLEN RO1/RO2: Rechte mit Scope-Aktion und
+  Schutzklasse, Rollen mit Vererbung, Gates mit Begrenzung durch den Token-Scope (API C2), `roles` und `abilities` im
+  Steckbrief, Befehl `eduksx:rollen-rechte` (Matrix `docs/ROLLEN-RECHTE.md`, `--check`), Konformitätstest
+  `assertRolesConform()`.
+
 ## [0.3.0] – 2026-11-26
 
 ### Neu

@@ -156,6 +156,22 @@ php artisan eduksx:protokollpaket --from="2026-11-26 08:00" --to="2026-11-26 12:
 php artisan eduksx:protokollpaket --keypair   # nur beim Support: Schlüsselpaar erzeugen
 ```
 
+### Rechte und Rollen
+
+Nach EduKSX-Architektur KONZEPT-ROLLEN: Rechte `<ressource>.<aktion>`, Rollen `reader`, `editor`, `admin` (plus
+Fachrollen) bündeln Rechte; geprüft wird immer das Recht. Definiert in `config/eduksx.php` unter `access`; Steckbrief
+(`roles`, `abilities`) und Matrix kommen daraus.
+
+```php
+// AppServiceProvider des Moduls: Rollen der Person (Datenbank oder Claim eduksx_roles), optional Scopes des Tokens
+Abilities::registerGates(fn ($user) => $user->roleNames(), fn ($user) => $user->currentTokenScopes());
+Gate::authorize('terms.publish');
+```
+
+`php artisan eduksx:rollen-rechte` schreibt `docs/ROLLEN-RECHTE.md`; `--check` in der CI bzw.
+`$this->assertRolesConform()` im Konformitätstest. Geltungsbereiche (`unit`, `group`, `self`) und `*_sensitive`
+folgen, sobald ein Modul sie braucht.
+
 ### Sicherheitsprotokoll
 
 Nach DB-Standard A7: unveränderlich und hash-verkettet (`security_events`, Migration `eduksx-security-migrations`),

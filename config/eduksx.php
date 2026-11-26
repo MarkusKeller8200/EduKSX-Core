@@ -35,6 +35,21 @@ return [
     ],
 
     /*
+    | Rechte und Rollen (KONZEPT-ROLLEN RO1, RO2): Recht `<ressource>.<aktion>` mit scope_action (read, write, delete,
+    | admin), label, class (normal, privileged, system) und sensitive. Rollen: Liste von Rechten bzw. Rollennamen
+    | (= alle Rechte dieser Rolle); mindestens reader, editor, admin. Ergibt `roles` und `abilities` im Steckbrief und
+    | die Matrix docs/ROLLEN-RECHTE.md (php artisan eduksx:rollen-rechte).
+    */
+    'access' => [
+        'abilities' => [
+            // 'terms.read' => ['scope_action' => 'read', 'label' => 'Begriffe lesen'],
+        ],
+        'roles' => [
+            // 'reader' => ['terms.read'], 'editor' => ['reader', 'terms.write'], 'admin' => ['editor', 'terms.publish'],
+        ],
+    ],
+
+    /*
     | Bereitschaft GET /health (S5, API D6). Kritische Prüfungen führen bei «fail» zu 503, die übrigen zu «degraded».
     */
     'health' => [
