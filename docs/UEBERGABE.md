@@ -1,6 +1,6 @@
 # Übergabe an einen neuen Chat – EduKSX-Core
 
-Stand: **26.11.2026** – Release 0.3.0 (PHP 8.5, Einstellungen, Protokollierung, Sicherheitsprotokoll).
+Stand: **26.11.2026** – Release 0.4.0 (Rechte und Rollen, Anmeldung Stufe 1); 0.3.0 mit PHP 8.5, Einstellungen, Protokollierung, Sicherheitsprotokoll.
 [PROJEKTSTAND.md](PROJEKTSTAND.md) (aktuell), [PROJEKTSTAND-ARCHIV.md](PROJEKTSTAND-ARCHIV.md) (Verlauf). Konzept liegt im
 Repo EduKSX-Architektur (`docs/KONZEPT-CORE.md`). Bei jeder Übergabe nachführen.
 
@@ -13,14 +13,14 @@ Repo EduKSX-Architektur (`docs/KONZEPT-CORE.md`). Bei jeder Übergabe nachführe
   Organisation, Protokollpaket und Sicherheitsprotokoll (#35, #36, PR #37).
 - Lokal läuft nur PHP 8.3 – Tests (Symfony 8 braucht PHP ≥ 8.4) laufen in der CI (`tests`, SQLite und PostgreSQL 18).
 - 0.3.0 im Chat freigegeben und veröffentlicht (26.11.2026); Korrekturen aus dem Beta-Test als 0.3.x.
-- Danach gemergt: Rechte und Rollen (#39, PR #40), Anmeldung Stufe 1 (#41, PR #42) – nächster Release nach Freigabe.
-- Glossary nutzt Core 0.3 (Protokollformat, Glossary #521); Umstellung der Einstellungen offen (Glossary #523, triage).
+- 0.4.0 (Freigabe im Chat 26.11.2026): Rechte und Rollen (#39, PR #40), Anmeldung Stufe 1 (#41, PR #42), Text mit Muster (#44, PR #45).
+- Glossary nutzt Core 0.3 (Protokollformat, Glossary #521); Einstellungen auf Core 0.4 (Glossary #523).
 
 **Offene Issues und ihr Status**
 
 | Issue | Status | Inhalt |
 |---|---|---|
-| #22, #24, #27, #29, #31, #33, #35, #36, #39, #41 | `_3 Beta-Test` | Abnahme durch Projektverantwortliche:n |
+| #22, #24, #27, #29, #31, #33, #35, #36, #39, #41, #44 | `_3 Beta-Test` | Abnahme durch Projektverantwortliche:n |
 | #28 | `triage` | Abgleich 0.4.0; erledigt bis Anmeldung Stufe 1, offen: ci:check (QUALITAET), DB 1.4/1.5, module-init |
 
 **Hinweise für die Arbeit**

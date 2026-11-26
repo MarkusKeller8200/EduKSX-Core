@@ -6,6 +6,8 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 
 ## [Unveröffentlicht]
 
+## [0.4.0] – 2026-11-26
+
 ### Neu
 
 - **Einstellungen: Text mit Muster (#44):** `pattern` und `pattern_hint` für den Typ `text` (z. B. «Besitzer/Repository»,
