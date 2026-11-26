@@ -1,26 +1,25 @@
 # Übergabe an einen neuen Chat – EduKSX-Core
 
-Stand: **14.11.2026** – Releases 0.1.0, 0.1.1 und 0.2.0; Glossary stellt auf Core um (Glossary #335).
+Stand: **26.11.2026** – Release 0.2.1; unveröffentlicht: PHP 8.5, Einstellungen, Protokollierung, Sicherheitsprotokoll.
 [PROJEKTSTAND.md](PROJEKTSTAND.md) (aktuell), [PROJEKTSTAND-ARCHIV.md](PROJEKTSTAND-ARCHIV.md) (Verlauf). Konzept liegt im
 Repo EduKSX-Architektur (`docs/KONZEPT-CORE.md`). Bei jeder Übergabe nachführen.
 
-## Start nächster Chat (Übergabe 13.11.2026, 17:45)
+## Start nächster Chat (Übergabe 26.11.2026)
 
 **Zuerst lesen:** CLAUDE.md → AGENTS.md → dieser Abschnitt → PROJEKTSTAND.md → KONZEPT-CORE.md (Architektur-Repo).
 
 **Stand Code und CI**
-- PR #7 (Grundgerüst, #2–#4) gemergt; Listen #5 gemergt (PR #8); Prüfungen #6 gemergt (PR #9); Release-PR 0.1.0 offen (Branch `release-0.1.0`). Workflow `tests` ist Pflichtprüfung und Voraussetzung für Releases.
-- Prüfen: `composer ci:check` (40 Tests); PostgreSQL wie oben.
-- Repository-Einstellungen und Rulesets liessen sich aus der Cloud-Sitzung nicht setzen: lokal
-  `python3 ../my-github-blueprint/.github/blueprint/apply.py --ziel . --nur-github` ausführen.
+- Gemergt seit 0.2.1: Stack PHP 8.5 (#29), Einstellungen (#31, PR #32), Protokollierung (#33, PR #34), Debug je
+  Organisation, Protokollpaket und Sicherheitsprotokoll (#35, #36, PR #37).
+- Lokal läuft nur PHP 8.3 – Tests (Symfony 8 braucht PHP ≥ 8.4) laufen in der CI (`tests`, SQLite und PostgreSQL 18).
+- Nächster Release erst nach Freigabe; Kandidat 0.3.0 (neue Bausteine), sobald der Beta-Test durch ist.
 
 **Offene Issues und ihr Status**
 
-| Issue | Meilenstein | Status | Inhalt |
-|---|---|---|---|
-| #2, #3, #4 | 0.1.0 – Grundbausteine | `_3 Beta-Test` | Grundgerüst, HTTP-Basis, DB-Basis (PR #7 gemergt) |
-| #5 | 0.1.0 – Grundbausteine | `_3 Beta-Test` | Cursor-Pagination, ETag, CORS-Voreinstellung (PR #8 gemergt) |
-| #6 | 0.1.0 – Grundbausteine | `_3 Beta-Test` | Spectral-Regelsatz, Konformitätstest (PR #9 gemergt) |
+| Issue | Status | Inhalt |
+|---|---|---|
+| #22, #24, #29, #31, #33, #35, #36 | `_3 Beta-Test` | Abnahme durch Projektverantwortliche:n |
+| #28 | `triage` | Abgleich 0.4.0; Reihenfolge entschieden: als Nächstes Rollen/Policy, dann Anmeldung |
 
 **Hinweise für die Arbeit**
 - Nur herauslösen, was im Glossary erprobt ist (API G3); Glossary-Bezüge entfernen, Modulschlüssel aus `eduksx.module`.

@@ -29,6 +29,7 @@ Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/), Versione
 ### Geändert
 
 - **Stack (#29):** PHP 8.5, CI mit PostgreSQL 18 (EduKSX-Architektur KONZEPT-STACK ST2).
+- **Projektstand (#27):** Verweis auf das umbenannte Repo EduKSX-Ident, Stand der neuen Bausteine.
 
 ## [0.2.1] – 2026-11-14
 
