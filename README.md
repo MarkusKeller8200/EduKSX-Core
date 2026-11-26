@@ -172,6 +172,25 @@ Gate::authorize('terms.publish');
 `$this->assertRolesConform()` im Konformitätstest. Geltungsbereiche (`unit`, `group`, `self`) und `*_sensitive`
 folgen, sobald ein Modul sie braucht.
 
+### Anmeldung (Stufe 1)
+
+Nach EduKSX-Architektur KONZEPT-ANMELDUNG §3 (Quelle Glossary). Masken und Controller bleiben vorerst im Modul; Core
+liefert die Regeln. Einschalten mit `EDUKSX_AUTH_LOCAL=true` (Einstellungen `auth.*` nach AN5, Sicherheitsprotokoll).
+
+```php
+$request->validate(['password' => ['required', 'confirmed', PasswordRules::rule($user->hasTwoFactor())]]);
+if ($wait = LoginThrottle::blockedFor($email, $request->ip())) { /* generischer Text, «in $wait Sekunden» */ }
+$step = Totp::verify($secret, $code, $user->two_factor_last_step);       // null = falsch oder schon verwendet
+['plain' => $show, 'hashes' => $store] = RecoveryCodes::generate();
+LocalLogin::log('login.succeeded', $organizationId, new Actor('user', $user->id));
+
+// bootstrap/app.php: Sitzung 30 Min. Leerlauf in der Administration, 8 Std. sonst, absolut 12 Std.
+$middleware->web(append: [\EduKSX\Core\Http\Middleware\SessionTimeout::class]);
+```
+
+Liste bekannter Passwörter: `EDUKSX_PASSWORD_BLOCKLIST=/pfad/liste.txt` (ein Passwort je Zeile). Externer Abgleich
+nur mit der Einstellung `auth.password_breach_check` (Vorgabe aus).
+
 ### Sicherheitsprotokoll
 
 Nach DB-Standard A7: unveränderlich und hash-verkettet (`security_events`, Migration `eduksx-security-migrations`),

@@ -142,6 +142,17 @@ return [
     'schedule' => true,
 
     /*
+    | Anmeldung, Stufe 1 (KONZEPT-ANMELDUNG §3, AN5): `local` = Modul nutzt das lokale Login mit den Bausteinen von Core
+    | (Einstellungen auth.*, Sicherheitsprotokoll). Liste bekannter Passwörter: Datei mit einem Passwort je Zeile.
+    */
+    'auth' => [
+        'local' => (bool) env('EDUKSX_AUTH_LOCAL', false),
+        'admin_paths' => ['admin', 'admin/*'],
+        'login_path' => '/anmelden',
+        'password_blocklist' => env('EDUKSX_PASSWORD_BLOCKLIST'),
+    ],
+
+    /*
     | Abruflimit «api» je Minute (API-Standard C5): je Token, sonst je Adresse.
     */
     'rate_limit' => [
