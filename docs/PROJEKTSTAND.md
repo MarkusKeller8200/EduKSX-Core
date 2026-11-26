@@ -1,8 +1,8 @@
 # EduKSX-Core – Projektstand
 
 > Stand 26.11.2026: Release 0.3.0 – Stack PHP 8.5 (#29) und die Bausteine Einstellungen (#31), Protokollierung
-> (#33, #35) und Sicherheitsprotokoll (#36). Seither gemergt (unveröffentlicht): Rechte und Rollen (#39), Anmeldung
-> Stufe 1 (#41). Als Nächstes aus #28: ci:check nach KONZEPT-QUALITAET, DB 1.4/1.5, eduksx:module-init;
+> (#33, #35) und Sicherheitsprotokoll (#36). Release 0.4.0: Rechte und Rollen (#39), Anmeldung Stufe 1 (#41), Text mit
+> Muster in den Einstellungen (#44). Als Nächstes aus #28: ci:check nach KONZEPT-QUALITAET, DB 1.4/1.5, eduksx:module-init;
 > Core 0.3 (OIDC, Token-Prüfung, Standardtabellen) nach dem Zitadel-PoC (EduKSX-Architektur #36). Module:
 > [EduKSX-Glossary](https://github.com/MarkusKeller8200/EduKSX-Glossary) und
 > [EduKSX-Ident](https://github.com/MarkusKeller8200/EduKSX-Ident) (Ident #8–#13).
@@ -24,8 +24,8 @@
 | Protokollierung: JSON, Maskierung, traceparent (#33) | im Beta-Test | 0.3.0 | KONZEPT-PROTOKOLLIERUNG §6, §7 |
 | Befristetes Debug je Organisation, Protokollpaket (#35) | im Beta-Test | 0.3.0 | KONZEPT-PROTOKOLLIERUNG §5, §9 |
 | Sicherheitsprotokoll, hash-verkettet (#36) | im Beta-Test | 0.3.0 | DB-Standard A7, DB-E7 |
-| Rechte und Rollen, Matrix eduksx:rollen-rechte (#39) | im Beta-Test | unveröffentlicht | KONZEPT-ROLLEN RO1, RO2, §8 |
-| Anmeldung Stufe 1: TOTP, Codes, Passwortregeln, Versuche, Sitzung (#41) | im Beta-Test | unveröffentlicht | KONZEPT-ANMELDUNG §3, AN5 |
+| Rechte und Rollen, Matrix eduksx:rollen-rechte (#39) | im Beta-Test | 0.4.0 | KONZEPT-ROLLEN RO1, RO2, §8 |
+| Anmeldung Stufe 1: TOTP, Codes, Passwortregeln, Versuche, Sitzung (#41) | im Beta-Test | 0.4.0 | KONZEPT-ANMELDUNG §3, AN5 |
 
 ## Offen bzw. geplant
 
