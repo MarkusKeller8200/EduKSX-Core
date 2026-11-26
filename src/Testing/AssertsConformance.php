@@ -2,6 +2,8 @@
 
 namespace EduKSX\Core\Testing;
 
+use EduKSX\Core\Access\Abilities;
+use EduKSX\Core\Access\AbilityMatrix;
 use EduKSX\Core\Data\DataClasses;
 use EduKSX\Core\Logging\MaskPersonalData;
 use EduKSX\Core\Module;
@@ -234,6 +236,19 @@ trait AssertsConformance
                 "Protokoll enthält Personendaten ({$value}) – tap EduKSX\\Core\\Logging\\UseEduksxFormat im Kanal fehlt (KONZEPT-PROTOKOLLIERUNG §6).");
         }
         $this->assertStringContainsString(MaskPersonalData::MASK, $output);
+    }
+
+    /**
+     * KONZEPT-ROLLEN RO1–RO3: Standardrollen reader ⊆ editor ⊆ admin, Rechte nach Schema, keine «system»-Rechte in
+     * Rollen, besonders schützenswerte Rechte nicht in reader/editor; die Matrix docs/ROLLEN-RECHTE.md ist aktuell.
+     */
+    public function assertRolesConform(?string $matrixPath = null): void
+    {
+        $problems = Abilities::problems();
+        $this->assertSame([], $problems, "Rollen und Rechte:\n- ".implode("\n- ", $problems));
+        $path = $matrixPath ?? base_path(AbilityMatrix::DEFAULT_PATH);
+        $this->assertFileExists($path, 'Rollen-Rechte-Matrix fehlt: php artisan eduksx:rollen-rechte (KONZEPT-ROLLEN §8).');
+        $this->assertSame(AbilityMatrix::markdown(), (string) file_get_contents($path), 'Rollen-Rechte-Matrix ist veraltet: php artisan eduksx:rollen-rechte');
     }
 
     /**

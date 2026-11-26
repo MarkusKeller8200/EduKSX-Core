@@ -4,6 +4,7 @@ namespace EduKSX\Core;
 
 use EduKSX\Core\Console\DebugCommand;
 use EduKSX\Core\Console\LogPackageCommand;
+use EduKSX\Core\Console\RolesMatrixCommand;
 use EduKSX\Core\Console\SecurityLogCommand;
 use EduKSX\Core\Events\ReceivedEvent;
 use EduKSX\Core\Events\ReceivePlatformEvent;
@@ -65,7 +66,7 @@ final class CoreServiceProvider extends ServiceProvider
         $this->publishesMigrations([__DIR__.'/../database/migrations/security' => database_path('migrations')], 'eduksx-security-migrations');
 
         if ($this->app->runningInConsole()) {
-            $this->commands([DebugCommand::class, LogPackageCommand::class, SecurityLogCommand::class]);
+            $this->commands([DebugCommand::class, LogPackageCommand::class, RolesMatrixCommand::class, SecurityLogCommand::class]);
         }
         if (config('eduksx.schedule', true)) {
             $this->callAfterResolving(Schedule::class, function (Schedule $schedule): void {

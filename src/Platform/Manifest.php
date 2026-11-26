@@ -2,6 +2,7 @@
 
 namespace EduKSX\Core\Platform;
 
+use EduKSX\Core\Access\Abilities;
 use EduKSX\Core\Module;
 use EduKSX\Core\Spec\Schemas;
 use Illuminate\Http\Request;
@@ -35,7 +36,9 @@ final class Manifest
             'standards' => (array) ($config['standards'] ?? Module::STANDARDS),
             'scopes_offered' => array_values((array) ($config['scopes_offered'] ?? [])),
             'scopes_required' => array_values((array) ($config['scopes_required'] ?? [])),
-            'roles' => array_values((array) ($config['roles'] ?? [])),
+            // Rollen und Rechte aus `access` (KONZEPT-ROLLEN), sofern der Steckbrief sie nicht selbst nennt
+            'roles' => array_values((array) (($config['roles'] ?? []) ?: array_keys(Abilities::roles()))),
+            'abilities' => Abilities::manifest() ?: null,
             'events_emitted' => array_values((array) ($config['events_emitted'] ?? [])),
             'events_consumed' => array_values((array) ($config['events_consumed'] ?? [])),
             'classification' => $config['classification'] ?? null,
